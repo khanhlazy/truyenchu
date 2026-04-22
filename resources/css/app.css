@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Typography cho đọc truyện */
+@layer base {
+    html {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .prose {
+        font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+    }
+
+    /* Scrollbar tùy chỉnh */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+        background: #475569;
+    }
+
+    /* Line clamp */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .line-clamp-4 {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+@layer components {
+    /* Focus ring */
+    .focus-ring {
+        @apply focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+    }
+}

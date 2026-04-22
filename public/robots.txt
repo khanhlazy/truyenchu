@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /tai-khoan
+Disallow: /yeu-thich
+Disallow: /theo-doi
+Disallow: /lich-su-doc
+Disallow: /chat
