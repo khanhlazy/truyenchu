@@ -1,29 +1,41 @@
 @extends('layouts.app')
-@section('title', 'Đặt Lại Mật Khẩu - TruyệnChữ')
+
+@section('title', 'Đặt lại mật khẩu - Truyện Chữ')
 
 @section('content')
-<div class="max-w-md mx-auto px-4 py-16">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm">
-        <h1 class="text-2xl font-bold text-center mb-8">Đặt Lại Mật Khẩu</h1>
-        <form method="POST" action="{{ route('dat-lai-mat-khau') }}">
-            @csrf
-            <input type="hidden" name="token" value="{{ $token }}">
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email</label>
-                    <input type="email" name="email" required class="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Mật khẩu mới</label>
-                    <input type="password" name="mat_khau" required class="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Xác nhận mật khẩu mới</label>
-                    <input type="password" name="mat_khau_confirmation" required class="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                </div>
-                <button type="submit" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">Đặt lại mật khẩu</button>
+<div class="shell-container py-4 sm:py-8">
+    <div class="auth-layout">
+        <section class="auth-panel">
+            <div class="mb-8">
+                <span class="section-kicker">Đặt lại mật khẩu</span>
+                <h2 class="mt-4 text-3xl font-black tracking-tight">Mật khẩu mới</h2>
+                <p class="mt-3 text-sm leading-7 text-[color:var(--ui-muted)]">
+                    Hãy tạo một mật khẩu mới để tiếp tục truy cập tài khoản.
+                </p>
             </div>
-        </form>
+
+            <form method="POST" action="{{ route('dat-lai-mat-khau') }}" class="space-y-5">
+                @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Email</label>
+                    <input type="email" name="email" required class="field-shell">
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Mật khẩu mới</label>
+                    <input type="password" name="mat_khau" required class="field-shell">
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Xác nhận</label>
+                    <input type="password" name="mat_khau_confirmation" required class="field-shell">
+                </div>
+
+                <button type="submit" class="btn-primary w-full justify-center">Cập nhật mật khẩu</button>
+            </form>
+        </section>
     </div>
 </div>
 @endsection

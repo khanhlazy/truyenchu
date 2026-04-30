@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Truyen;
 use App\Models\TheLoai;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class TimKiemController extends Controller
 {
@@ -30,13 +29,10 @@ class TimKiemController extends Controller
             }
 
             $query->sapXep($request->input('sap_xep', 'moi_cap_nhat'));
-            $truyens = $query->paginate(18)->withQueryString();
+            $truyens = $query->paginate(18)->onEachSide(2)->withQueryString();
         }
 
-        // Cache danh sách thể loại 1 giờ (dùng chung key với TruyenController)
-        $theLoais = Cache::remember('danh_sach_the_loai', 3600, function () {
-            return TheLoai::sapXep()->get();
-        });
+        $theLoais = TheLoai::sapXep()->get();
 
         return view('tim-kiem', compact('truyens', 'theLoais', 'tuKhoa'));
     }

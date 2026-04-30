@@ -12,10 +12,6 @@ class Chuong extends Model
 
     protected $table = 'chuong';
 
-    // Cập nhật updated_at của bảng truyen bất cứ lúc nào chương thay đổi
-    // Rất quan trọng để tính năng "Truyện mới cập nhật" (sắp xếp theo updated_at của truyện) hoạt động chuẩn xác
-    protected $touches = ['truyen'];
-
     protected $fillable = [
         'truyen_id',
         'so_chuong',

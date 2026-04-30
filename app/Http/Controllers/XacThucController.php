@@ -20,22 +20,24 @@ class XacThucController extends Controller
     public function dangNhap(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'dang_nhap' => 'required',
             'mat_khau' => 'required',
         ], [
-            'email.required' => 'Vui lòng nhập email.',
-            'email.email' => 'Email không hợp lệ.',
+            'dang_nhap.required' => 'Vui lòng nhập tên đăng nhập hoặc email.',
             'mat_khau.required' => 'Vui lòng nhập mật khẩu.',
         ]);
 
-        $nguoiDung = NguoiDung::where('email', $request->email)->first();
+        $loginField = $request->dang_nhap;
+        $loginType = filter_var($loginField, FILTER_VALIDATE_EMAIL) ? 'email' : 'ten_dang_nhap';
+
+        $nguoiDung = NguoiDung::where($loginType, $loginField)->first();
 
         if (!$nguoiDung || !Hash::check($request->mat_khau, $nguoiDung->mat_khau)) {
-            return back()->withErrors(['email' => 'Email hoặc mật khẩu không đúng.'])->withInput();
+            return back()->withErrors(['dang_nhap' => 'Thông tin đăng nhập không chính xác.'])->withInput();
         }
 
         if (!$nguoiDung->dangHoatDong()) {
-            return back()->withErrors(['email' => 'Tài khoản của bạn đã bị khóa.'])->withInput();
+            return back()->withErrors(['dang_nhap' => 'Tài khoản của bạn đã bị khóa.'])->withInput();
         }
 
         Auth::login($nguoiDung, $request->boolean('nho_dang_nhap'));

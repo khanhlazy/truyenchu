@@ -1,43 +1,53 @@
 @extends('layouts.app')
-@section('title', 'Đăng Nhập - TruyệnChữ')
+
+@section('title', 'Đăng nhập - Truyện Chữ')
 
 @section('content')
-<div class="max-w-md mx-auto px-4 py-16">
-    <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold">Đăng Nhập</h1>
-            <p class="text-sm text-gray-500 mt-1">Chào mừng bạn quay trở lại!</p>
-        </div>
-
-        <form method="POST" action="{{ route('dang-nhap') }}">
-            @csrf
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium mb-1">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required autofocus
-                           class="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Mật khẩu</label>
-                    <input type="password" name="mat_khau" required
-                           class="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    @error('mat_khau')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                </div>
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center gap-2 text-sm">
-                        <input type="checkbox" name="nho_dang_nhap" class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                        Nhớ đăng nhập
-                    </label>
-                    <a href="{{ route('quen-mat-khau') }}" class="text-sm text-indigo-600 hover:underline">Quên mật khẩu?</a>
-                </div>
-                <button type="submit" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">Đăng nhập</button>
+<div class="shell-container py-4 sm:py-8">
+    <div class="auth-layout">
+        <section class="auth-panel">
+            <div class="mb-8">
+                <span class="section-kicker">Đăng nhập</span>
+                <h2 class="mt-4 text-3xl font-black tracking-tight">Chào mừng trở lại</h2>
+                <p class="mt-3 text-sm leading-7 text-[color:var(--ui-muted)]">
+                    Đăng nhập để tiếp tục khám phá thư viện của bạn.
+                </p>
             </div>
-        </form>
 
-        <p class="text-center text-sm text-gray-500 mt-6">
-            Chưa có tài khoản? <a href="{{ route('dang-ky') }}" class="text-indigo-600 font-medium hover:underline">Đăng ký ngay</a>
-        </p>
+            <form method="POST" action="{{ route('dang-nhap') }}" class="space-y-5">
+                @csrf
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Tên đăng nhập hoặc Email</label>
+                    <input type="text" name="dang_nhap" value="{{ old('dang_nhap') }}" required autofocus class="field-shell" placeholder="admin hoặc admin@example.com">
+                    @error('dang_nhap')
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <div class="mb-2 flex items-center justify-between gap-3">
+                        <label class="block text-sm font-semibold">Mật khẩu</label>
+                        <a href="{{ route('quen-mat-khau') }}" class="text-sm font-medium text-[color:var(--ui-primary)]">Quên mật khẩu?</a>
+                    </div>
+                    <input type="password" name="mat_khau" required class="field-shell">
+                    @error('mat_khau')
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <label class="inline-flex items-center gap-3 text-sm text-[color:var(--ui-muted)]">
+                    <input type="checkbox" name="nho_dang_nhap" class="h-4 w-4 rounded border-[color:var(--ui-border)] text-[color:var(--ui-primary)] focus:ring-[color:var(--ui-primary)]">
+                    Ghi nhớ đăng nhập
+                </label>
+
+                <button type="submit" class="btn-primary w-full justify-center">Đăng nhập</button>
+            </form>
+
+            <div class="mt-8 border-t border-[color:var(--ui-border)] pt-6 text-sm text-[color:var(--ui-muted)] text-center">
+                Chưa có tài khoản?
+                <a href="{{ route('dang-ky') }}" class="font-semibold text-[color:var(--ui-primary)]">Đăng ký ngay</a>
+            </div>
+        </section>
     </div>
 </div>
 @endsection

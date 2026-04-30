@@ -27,6 +27,7 @@ class Truyen extends Model
         'meta_description',
         'is_published',
         'published_at',
+        'chuong_cap_nhat_luc',
     ];
 
     protected function casts(): array
@@ -34,6 +35,7 @@ class Truyen extends Model
         return [
             'is_published' => 'boolean',
             'published_at' => 'datetime',
+            'chuong_cap_nhat_luc' => 'datetime',
             'tong_luot_xem' => 'integer',
             'tong_luot_theo_doi' => 'integer',
             'tong_luot_yeu_thich' => 'integer',
@@ -124,9 +126,11 @@ class Truyen extends Model
     public function scopeTimKiem($query, ?string $tuKhoa)
     {
         if ($tuKhoa) {
-            // Thay vì dùng LIKE "%tuKhoa%" (gây Full Table Scan), 
-            // Dùng whereFullText để tận dụng index FULLTEXT đã có trong Database
-            return $query->whereFullText(['tieu_de', 'tac_gia', 'mo_ta_ngan'], $tuKhoa);
+            return $query->where(function ($q) use ($tuKhoa) {
+                $q->where('tieu_de', 'like', "%{$tuKhoa}%")
+                  ->orWhere('tac_gia', 'like', "%{$tuKhoa}%")
+                  ->orWhere('mo_ta_ngan', 'like', "%{$tuKhoa}%");
+            });
         }
         return $query;
     }
@@ -138,7 +142,7 @@ class Truyen extends Model
             'xem_nhieu' => $query->orderByDesc('tong_luot_xem'),
             'ten_az' => $query->orderBy('tieu_de'),
             'ten_za' => $query->orderByDesc('tieu_de'),
-            default => $query->orderByDesc('updated_at'),
+            default => $query->orderByDesc('chuong_cap_nhat_luc'),
         };
     }
 
@@ -148,10 +152,16 @@ class Truyen extends Model
         return $query->daXuatBan()->orderByDesc('tong_luot_xem');
     }
 
-    // Scope: mới cập nhật
+    // Scope: mới cập nhật (theo thời điểm chương mới nhất được thêm)
     public function scopeMoiCapNhat($query)
     {
-        return $query->daXuatBan()->orderByDesc('updated_at');
+        return $query->daXuatBan()->orderByDesc('chuong_cap_nhat_luc');
+    }
+
+    // Cập nhật thời điểm chương mới nhất
+    public function capNhatThoiDiemChuong(): void
+    {
+        $this->update(['chuong_cap_nhat_luc' => now()]);
     }
 
     // Scope: hoàn thành

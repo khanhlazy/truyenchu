@@ -1,57 +1,148 @@
 @extends('layouts.app')
 
-@section('title', 'Tìm Kiếm Truyện - TruyệnChữ')
+@section('title', 'Tìm kiếm truyện - Truyện Chữ')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <h1 class="text-2xl font-bold mb-6">Tìm Kiếm Truyện</h1>
+@php
+    $selectedGenre = $theLoais->firstWhere('id', (int) request('the_loai'));
+    $hasSearch = $tuKhoa || request('the_loai') || request('trang_thai');
+@endphp
 
-    <form method="GET" action="{{ route('tim-kiem') }}" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="sm:col-span-2">
-                <input type="text" name="tu_khoa" value="{{ $tuKhoa }}" placeholder="Nhập tên truyện, tác giả, hoặc mô tả..."
-                       class="w-full px-4 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent" autofocus>
-            </div>
-            <div>
-                <select name="the_loai" class="w-full px-3 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Tất cả thể loại</option>
-                    @foreach($theLoais as $tl)
-                        <option value="{{ $tl->id }}" {{ request('the_loai') == $tl->id ? 'selected' : '' }}>{{ $tl->ten }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <select name="trang_thai" class="w-full px-3 py-3 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    <option value="">Tất cả trạng thái</option>
-                    <option value="dang_ra" {{ request('trang_thai') == 'dang_ra' ? 'selected' : '' }}>Đang ra</option>
-                    <option value="hoan_thanh" {{ request('trang_thai') == 'hoan_thanh' ? 'selected' : '' }}>Hoàn thành</option>
-                    <option value="tam_ngung" {{ request('trang_thai') == 'tam_ngung' ? 'selected' : '' }}>Tạm ngưng</option>
-                </select>
+<div x-data="{ openFilters: false }" class="shell-container page-stack">
+    {{-- Page header --}}
+    <section class="hero-panel">
+        <h1 class="text-2xl font-bold tracking-tight" style="color: var(--ui-text);">Tìm kiếm truyện</h1>
+        <p class="mt-1 text-sm" style="color: var(--ui-muted);">Tìm theo tên truyện, tác giả, thể loại hoặc trạng thái.</p>
+    </section>
+
+    {{-- Filters --}}
+    <section class="surface-panel p-3 sm:p-5">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="section-title">Bộ lọc</h2>
+            <div class="flex gap-2">
+                <button type="button" @click="openFilters = true" class="btn-secondary text-sm lg:hidden">Bộ lọc</button>
+                <a href="{{ route('tim-kiem') }}" class="btn-quiet text-sm">Xóa bộ lọc</a>
             </div>
         </div>
-        <button type="submit" class="mt-4 px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition">Tìm kiếm</button>
-    </form>
 
-    @if($tuKhoa || request('the_loai') || request('trang_thai'))
-        @if($truyens instanceof \Illuminate\Pagination\LengthAwarePaginator && $truyens->count() > 0)
-            <p class="text-sm text-gray-500 mb-4">Tìm thấy {{ $truyens->total() }} kết quả {{ $tuKhoa ? 'cho "' . $tuKhoa . '"' : '' }}</p>
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                @foreach($truyens as $truyen)
-                    @include('components.story-card', ['truyen' => $truyen])
+        <form method="GET" action="{{ route('tim-kiem') }}" class="hidden gap-3 lg:grid lg:grid-cols-5">
+            <input type="text" name="tu_khoa" value="{{ $tuKhoa }}" placeholder="Tên truyện, tác giả..." class="field-shell">
+
+            <select name="the_loai" class="field-shell">
+                <option value="">Tất cả thể loại</option>
+                @foreach($theLoais as $category)
+                    <option value="{{ $category->id }}" @selected(request('the_loai') == $category->id)>{{ $category->ten }}</option>
                 @endforeach
-            </div>
-            <div class="mt-6">{{ $truyens->links() }}</div>
-        @else
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-12 text-center border border-gray-200 dark:border-gray-700">
-                <p class="text-gray-500 text-lg">Không tìm thấy truyện nào {{ $tuKhoa ? 'cho "' . $tuKhoa . '"' : '' }}.</p>
-                <p class="text-gray-400 text-sm mt-1">Thử thay đổi từ khóa hoặc bộ lọc.</p>
+            </select>
+
+            <select name="trang_thai" class="field-shell">
+                <option value="">Tất cả trạng thái</option>
+                <option value="dang_ra" @selected(request('trang_thai') === 'dang_ra')>Đang ra</option>
+                <option value="hoan_thanh" @selected(request('trang_thai') === 'hoan_thanh')>Hoàn thành</option>
+                <option value="tam_ngung" @selected(request('trang_thai') === 'tam_ngung')>Tạm ngưng</option>
+            </select>
+
+            <select name="sap_xep" class="field-shell">
+                <option value="moi_cap_nhat" @selected(request('sap_xep', 'moi_cap_nhat') === 'moi_cap_nhat')>Mới cập nhật</option>
+                <option value="xem_nhieu" @selected(request('sap_xep') === 'xem_nhieu')>Xem nhiều</option>
+                <option value="ten_az" @selected(request('sap_xep') === 'ten_az')>Tên A-Z</option>
+                <option value="ten_za" @selected(request('sap_xep') === 'ten_za')>Tên Z-A</option>
+            </select>
+
+            <button type="submit" class="btn-primary text-sm">Tìm kiếm</button>
+        </form>
+
+        @if($hasSearch)
+            <div class="mt-3 flex flex-wrap gap-1.5">
+                @if($tuKhoa)
+                    <span class="tag-pill">{{ $tuKhoa }}</span>
+                @endif
+                @if($selectedGenre)
+                    <span class="tag-pill-muted">{{ $selectedGenre->ten }}</span>
+                @endif
+                @if(request('trang_thai'))
+                    <span class="tag-pill-muted">{{ str_replace('_', ' ', request('trang_thai')) }}</span>
+                @endif
             </div>
         @endif
+    </section>
+
+    {{-- Results --}}
+    @if($hasSearch)
+        <section class="surface-panel p-3 sm:p-5">
+            <h2 class="section-title mb-4">
+                Tìm thấy {{ $truyens instanceof \Illuminate\Pagination\LengthAwarePaginator ? number_format($truyens->total()) : '0' }} truyện
+            </h2>
+
+            @if($truyens instanceof \Illuminate\Pagination\LengthAwarePaginator && $truyens->count() > 0)
+                <div class="story-grid">
+                    @foreach($truyens as $truyen)
+                        @include('components.story-card', ['truyen' => $truyen])
+                    @endforeach
+                </div>
+
+                <div class="mt-6">
+                    {{ $truyens->links() }}
+                </div>
+            @else
+                <div class="empty-state">
+                    <p class="text-base font-semibold" style="color: var(--ui-text);">Không tìm thấy truyện phù hợp.</p>
+                    <p class="mt-1 text-sm" style="color: var(--ui-muted);">Thử đổi từ khóa hoặc nới rộng bộ lọc.</p>
+                </div>
+            @endif
+        </section>
     @else
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-12 text-center border border-gray-200 dark:border-gray-700">
-            <svg class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            <p class="text-gray-500 text-lg">Nhập từ khóa để bắt đầu tìm kiếm</p>
+        <div class="empty-state">
+            <p class="text-base font-semibold" style="color: var(--ui-text);">Nhập từ khóa để bắt đầu tìm kiếm.</p>
+            <p class="mt-1 text-sm" style="color: var(--ui-muted);">Bạn có thể tìm theo tên truyện, tác giả, thể loại hoặc trạng thái.</p>
         </div>
     @endif
+
+    {{-- Mobile filter drawer --}}
+    <template x-if="openFilters">
+        <div class="fixed inset-0 z-[80] lg:hidden">
+            <button type="button" class="absolute inset-0 bg-black/30 backdrop-blur-sm" @click="openFilters = false"></button>
+            <div class="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto p-5 shadow-xl" style="background: var(--ui-surface); border-radius: var(--ui-radius-xl) var(--ui-radius-xl) 0 0;">
+                <div class="mb-4 flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Bộ lọc</h2>
+                    <button type="button" class="icon-button" @click="openFilters = false">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <form method="GET" action="{{ route('tim-kiem') }}" class="space-y-3">
+                    <input type="text" name="tu_khoa" value="{{ $tuKhoa }}" placeholder="Tên truyện, tác giả..." class="field-shell">
+
+                    <select name="sap_xep" class="field-shell">
+                        <option value="moi_cap_nhat" @selected(request('sap_xep', 'moi_cap_nhat') === 'moi_cap_nhat')>Mới cập nhật</option>
+                        <option value="xem_nhieu" @selected(request('sap_xep') === 'xem_nhieu')>Xem nhiều</option>
+                        <option value="ten_az" @selected(request('sap_xep') === 'ten_az')>Tên A-Z</option>
+                        <option value="ten_za" @selected(request('sap_xep') === 'ten_za')>Tên Z-A</option>
+                    </select>
+
+                    <select name="trang_thai" class="field-shell">
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="dang_ra" @selected(request('trang_thai') === 'dang_ra')>Đang ra</option>
+                        <option value="hoan_thanh" @selected(request('trang_thai') === 'hoan_thanh')>Hoàn thành</option>
+                        <option value="tam_ngung" @selected(request('trang_thai') === 'tam_ngung')>Tạm ngưng</option>
+                    </select>
+
+                    <select name="the_loai" class="field-shell">
+                        <option value="">Tất cả thể loại</option>
+                        @foreach($theLoais as $category)
+                            <option value="{{ $category->id }}" @selected(request('the_loai') == $category->id)>{{ $category->ten }}</option>
+                        @endforeach
+                    </select>
+
+                    <div class="grid grid-cols-2 gap-2 pt-2">
+                        <a href="{{ route('tim-kiem') }}" class="btn-secondary justify-center text-sm">Hủy</a>
+                        <button type="submit" class="btn-primary text-sm">Áp dụng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
 </div>
 @endsection

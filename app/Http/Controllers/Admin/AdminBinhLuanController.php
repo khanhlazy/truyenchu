@@ -23,7 +23,7 @@ class AdminBinhLuanController extends Controller
             $query->where('noi_dung', 'like', '%' . $request->input('tu_khoa') . '%');
         }
 
-        $binhLuans = $query->orderByDesc('id')->paginate(30)->withQueryString();
+        $binhLuans = $query->orderByDesc('created_at')->paginate(30)->withQueryString();
 
         return view('admin.binh-luan.danh-sach', compact('binhLuans'));
     }

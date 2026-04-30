@@ -1,79 +1,101 @@
 @extends('layouts.app')
-@section('title', 'Tài Khoản - TruyệnChữ')
+
+@section('title', 'Tài khoản của tôi - Truyện Chữ')
 
 @section('content')
-<div class="max-w-3xl mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Tài Khoản Của Tôi</h1>
+<div class="shell-container page-stack">
+    <section class="hero-panel">
+        <div class="grid gap-6 lg:grid-cols-[auto_1fr] lg:items-center">
+            <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="{{ auth()->user()->ten_hien_thi }}" class="h-24 w-24 rounded-full object-cover ring-4 ring-white/70 dark:ring-white/10">
+            <div>
+                <span class="section-kicker">Khu vực cá nhân</span>
+                <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">{{ auth()->user()->ten_hien_thi }}</h1>
+                <p class="mt-3 text-base leading-8 text-[color:var(--ui-muted)] sm:text-lg">
+                    Cập nhật thông tin, đổi mật khẩu và quản lý toàn bộ dữ liệu đọc của bạn từ một nơi duy nhất.
+                </p>
+            </div>
+        </div>
+    </section>
 
-    {{-- Tabs --}}
-    <div class="flex gap-4 mb-6 border-b border-gray-200 dark:border-gray-700">
-        <a href="{{ route('tai-khoan') }}" class="pb-3 text-sm font-medium border-b-2 border-indigo-600 text-indigo-600">Hồ sơ</a>
-        <a href="{{ route('yeu-thich') }}" class="pb-3 text-sm font-medium text-gray-500 hover:text-gray-700 transition">Yêu thích</a>
-        <a href="{{ route('theo-doi') }}" class="pb-3 text-sm font-medium text-gray-500 hover:text-gray-700 transition">Theo dõi</a>
-        <a href="{{ route('lich-su-doc') }}" class="pb-3 text-sm font-medium text-gray-500 hover:text-gray-700 transition">Lịch sử</a>
-    </div>
+    @include('components.account-tabs', ['active' => 'profile'])
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {{-- Cập nhật hồ sơ --}}
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-            <h2 class="font-semibold mb-4">Thông tin cá nhân</h2>
-            <form method="POST" action="{{ route('tai-khoan.cap-nhat') }}" enctype="multipart/form-data">
+    <section class="grid gap-6 xl:grid-cols-2">
+        <div class="surface-panel p-6">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Thông tin</span>
+                    <h2 class="section-title text-2xl">Cập nhật hồ sơ</h2>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('tai-khoan.cap-nhat') }}" enctype="multipart/form-data" class="space-y-5">
                 @csrf
                 @method('PUT')
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Tên hiển thị</label>
-                        <input type="text" name="ten_hien_thi" value="{{ old('ten_hien_thi', auth()->user()->ten_hien_thi) }}"
-                               class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                        @error('ten_hien_thi')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Email</label>
-                        <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}"
-                               class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                        @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Ảnh đại diện</label>
-                        <div class="flex items-center gap-4">
-                            <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="Avatar" class="w-16 h-16 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600">
-                            <input type="file" name="anh_dai_dien" accept="image/*"
-                                   class="focus:outline-none text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100">
-                        </div>
-                    </div>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">Cập nhật</button>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Tên hiển thị</label>
+                    <input type="text" name="ten_hien_thi" value="{{ old('ten_hien_thi', auth()->user()->ten_hien_thi) }}" class="field-shell">
+                    @error('ten_hien_thi')
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Email</label>
+                    <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" class="field-shell">
+                    @error('email')
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="surface-panel-strong p-4">
+                    <label class="mb-3 block text-sm font-semibold">Ảnh đại diện</label>
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+                        <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="Avatar" class="h-20 w-20 rounded-full object-cover ring-4 ring-white/70 dark:ring-white/10">
+                        <input type="file" name="anh_dai_dien" accept="image/*" class="field-shell text-sm file:mr-4 file:rounded-full file:border-0 file:bg-[color:var(--ui-primary)] file:px-4 file:py-2 file:font-semibold file:text-white">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">Lưu thay đổi</button>
             </form>
         </div>
 
-        {{-- Đổi mật khẩu --}}
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-            <h2 class="font-semibold mb-4">Đổi mật khẩu</h2>
-            <form method="POST" action="{{ route('tai-khoan.doi-mat-khau') }}">
+        <div class="surface-panel p-6">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">Bảo mật</span>
+                    <h2 class="section-title text-2xl">Đổi mật khẩu</h2>
+                </div>
+            </div>
+
+            <form method="POST" action="{{ route('tai-khoan.doi-mat-khau') }}" class="space-y-5">
                 @csrf
                 @method('PUT')
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Mật khẩu hiện tại</label>
-                        <input type="password" name="mat_khau_cu"
-                               class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                        @error('mat_khau_cu')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Mật khẩu mới</label>
-                        <input type="password" name="mat_khau_moi"
-                               class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                        @error('mat_khau_moi')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Xác nhận mật khẩu mới</label>
-                        <input type="password" name="mat_khau_moi_confirmation"
-                               class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">Đổi mật khẩu</button>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Mật khẩu hiện tại</label>
+                    <input type="password" name="mat_khau_cu" class="field-shell">
+                    @error('mat_khau_cu')
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Mật khẩu mới</label>
+                    <input type="password" name="mat_khau_moi" class="field-shell">
+                    @error('mat_khau_moi')
+                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-semibold">Xác nhận mật khẩu mới</label>
+                    <input type="password" name="mat_khau_moi_confirmation" class="field-shell">
+                </div>
+
+                <button type="submit" class="btn-primary">Cập nhật mật khẩu</button>
             </form>
         </div>
-    </div>
+    </section>
 </div>
 @endsection

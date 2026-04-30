@@ -222,6 +222,9 @@ class CrawlNovelPageJob implements ShouldQueue
                 'published_at' => now(),
             ]);
 
+            // Cập nhật thời điểm chương mới nhất cho truyện
+            $chuong->truyen->capNhatThoiDiemChuong();
+
             // Thành công → reset bộ đếm lỗi
             Cache::forget($errorKey);
 

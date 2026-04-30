@@ -65,8 +65,8 @@ class AdminChuongController extends Controller
             'published_at' => $request->boolean('is_published') ? now() : null,
         ]);
 
-        // Cập nhật thời gian truyện
-        $truyen->touch();
+        // Cập nhật thời điểm chương mới nhất
+        $truyen->capNhatThoiDiemChuong();
 
         NhatKyKiemDuyet::ghiLog(auth()->id(), 'tao_chuong', 'chuong', $chuong->id);
 
@@ -102,7 +102,7 @@ class AdminChuongController extends Controller
             'published_at' => $request->boolean('is_published') && !$chuong->published_at ? now() : $chuong->published_at,
         ]);
 
-        $chuong->truyen->touch();
+        $chuong->truyen->capNhatThoiDiemChuong();
         NhatKyKiemDuyet::ghiLog(auth()->id(), 'cap_nhat_chuong', 'chuong', $chuong->id);
 
         return redirect()->route('admin.chuong.danh-sach', $chuong->truyen_id)->with('thanh_cong', 'Cập nhật chương thành công!');
@@ -126,7 +126,7 @@ class AdminChuongController extends Controller
             $chuong->published_at = now();
         }
         $chuong->save();
-        $chuong->truyen->touch();
+        $chuong->truyen->capNhatThoiDiemChuong();
 
         return back()->with('thanh_cong', $chuong->is_published ? 'Đã xuất bản chương.' : 'Đã gỡ xuất bản chương.');
     }
@@ -153,7 +153,7 @@ class AdminChuongController extends Controller
         // Update truyen timestamp
         $firstChuong = Chuong::find($ids[0]);
         if ($firstChuong) {
-            $firstChuong->truyen->touch();
+            $firstChuong->truyen->capNhatThoiDiemChuong();
             NhatKyKiemDuyet::ghiLog(auth()->id(), 'thao_tac_hang_loat_chuong', 'chuong', 0, ['so_luong' => count($ids), 'hanh_dong' => $request->input('action')]);
         }
 

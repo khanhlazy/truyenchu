@@ -31,6 +31,12 @@ Route::get('/truyen/{slug}', [TruyenController::class, 'chiTiet'])->name('truyen
 Route::get('/truyen/{truyen_slug}/chuong/{chuong_slug}', [ChuongController::class, 'doc'])->name('chuong.doc');
 Route::get('/the-loai/{slug}', [TheLoaiController::class, 'danhSach'])->name('the-loai.danh-sach');
 Route::get('/tim-kiem', [TimKiemController::class, 'timKiem'])->name('tim-kiem');
+Route::get('/donate', function() {
+    if (\App\Models\CauHinh::lay('donate_bat', '0') !== '1') abort(404);
+    return view('donate', [
+        'noiDung' => \App\Models\CauHinh::lay('donate_noi_dung', '')
+    ]);
+})->name('donate');
 
 // ==========================================
 // XÁC THỰC
