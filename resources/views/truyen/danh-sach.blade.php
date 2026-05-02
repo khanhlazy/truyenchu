@@ -22,7 +22,7 @@
 
         <div class="relative z-10 space-y-8">
             <div class="space-y-4">
-                <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl">Thư viện truyện</h1>
+                <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-white">Thư viện truyện</h1>
                 <p class="max-w-2xl text-lg text-indigo-200">
                     Khám phá hàng ngàn bộ truyện hấp dẫn, đa dạng thể loại. Tìm kiếm nội dung yêu thích của bạn chỉ trong vài giây.
                 </p>
