@@ -24,6 +24,55 @@ class Chuong extends Model
         'published_at',
     ];
 
+    /**
+     * Accessor: Ưu tiên đọc nội dung từ Redis -> File -> Database
+     */
+    public function getNoiDungAttribute($value)
+    {
+        $cacheKey = "chapter_content_{$this->truyen_id}_{$this->so_chuong}";
+
+        // 1. Thử lấy từ Redis Cache
+        $content = cache()->get($cacheKey);
+        if ($content) {
+            return $content;
+        }
+
+        // 2. Thử lấy từ File System
+        $filePath = "chapters/{$this->truyen_id}/c_{$this->so_chuong}.txt";
+        if (\Illuminate\Support\Facades\Storage::exists($filePath)) {
+            $content = \Illuminate\Support\Facades\Storage::get($filePath);
+            // Lưu lại vào Redis (7 ngày) để lần sau đọc nhanh hơn
+            cache()->put($cacheKey, $content, now()->addDays(7));
+            return $content;
+        }
+
+        // 3. Cuối cùng mới lấy từ DB (cho các truyện cũ chưa chuyển đổi)
+        if ($value && $value !== '[FILE_STORAGE]') {
+            return $value;
+        }
+
+        return "Nội dung đang được cập nhật...";
+    }
+
+    /**
+     * Mutator: Tự động lưu vào File và Redis khi gán nội dung
+     */
+    public function setNoiDungAttribute($value)
+    {
+        if (empty($value)) return;
+
+        // 1. Lưu vào File System
+        $filePath = "chapters/{$this->truyen_id}/c_{$this->so_chuong}.txt";
+        \Illuminate\Support\Facades\Storage::put($filePath, $value);
+
+        // 2. Lưu vào Redis Cache (7 ngày)
+        $cacheKey = "chapter_content_{$this->truyen_id}_{$this->so_chuong}";
+        cache()->put($cacheKey, $value, now()->addDays(7));
+
+        // 3. Để trống trong database để tiết kiệm dung lượng
+        $this->attributes['noi_dung'] = '[FILE_STORAGE]';
+    }
+
     protected function casts(): array
     {
         return [
