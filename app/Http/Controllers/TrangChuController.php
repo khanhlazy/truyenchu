@@ -17,6 +17,7 @@ class TrangChuController extends Controller
 
             // 1. Truyện Hot (Đọc nhiều nhất)
             $truyenHot = Truyen::daXuatBan()
+                ->withCount('chuong')
                 ->with(['theLoai', 'chuongMoiNhat'])
                 ->orderByDesc('tong_luot_xem')
                 ->take(10)
@@ -25,6 +26,7 @@ class TrangChuController extends Controller
 
             // 2. Biên tập viên đề cử
             $editorPicks = Truyen::daXuatBan()
+                ->withCount('chuong')
                 ->whereNotIn('id', $excludeIds)
                 ->orderByDesc('tong_luot_yeu_thich')
                 ->take(10)
@@ -33,6 +35,7 @@ class TrangChuController extends Controller
 
             // 3. Mới cập nhật
             $truyenMoiCapNhat = Truyen::daXuatBan()
+                ->withCount('chuong')
                 ->whereNotIn('id', $excludeIds)
                 ->with(['theLoai', 'chuongMoiNhat'])
                 ->orderByDesc('chuong_cap_nhat_luc')
@@ -52,6 +55,7 @@ class TrangChuController extends Controller
 
             // 5. Truyện đã hoàn thành
             $truyenHoanThanh = Truyen::hoanThanh()
+                ->withCount('chuong')
                 ->with(['theLoai', 'chuongMoiNhat'])
                 ->orderByDesc('tong_luot_xem')
                 ->take(10)
