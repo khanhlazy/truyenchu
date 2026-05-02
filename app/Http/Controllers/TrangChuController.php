@@ -12,28 +12,34 @@ class TrangChuController extends Controller
 {
     public function index()
     {
-        $truyenMoiCapNhat = Truyen::daXuatBan()
-            ->with([
-                'theLoai', 
-                'chuongMoiNhat' => function($query) {
-                    $query->select('chuong.id', 'chuong.truyen_id', 'chuong.tieu_de', 'chuong.so_chuong', 'chuong.slug', 'chuong.updated_at');
-                }
-            ])
-            ->moiCapNhat()
-            ->take(12)
-            ->get();
+        $excludeIds = [];
 
+        // 1. Truyện Hot (Đọc nhiều nhất - Grid 1)
         $truyenHot = Truyen::daXuatBan()
-            ->with([
-                'theLoai',
-                'chuongMoiNhat' => function($query) {
-                    $query->select('chuong.id', 'chuong.truyen_id', 'chuong.tieu_de', 'chuong.so_chuong', 'chuong.slug', 'chuong.updated_at');
-                }
-            ])
-            ->hot()
+            ->with(['theLoai', 'chuongMoiNhat'])
+            ->orderByDesc('tong_luot_xem')
             ->take(10)
             ->get();
+        $excludeIds = array_merge($excludeIds, $truyenHot->pluck('id')->toArray());
 
+        // 2. Biên tập viên đề cử (Yêu thích nhất - Banner Indigo)
+        $editorPicks = Truyen::daXuatBan()
+            ->whereNotIn('id', $excludeIds)
+            ->orderByDesc('tong_luot_yeu_thich')
+            ->take(10)
+            ->get();
+        $excludeIds = array_merge($excludeIds, $editorPicks->pluck('id')->toArray());
+
+        // 3. Mới cập nhật (Dựa trên thời gian đăng chương - Grid 2)
+        $truyenMoiCapNhat = Truyen::daXuatBan()
+            ->whereNotIn('id', $excludeIds)
+            ->with(['theLoai', 'chuongMoiNhat'])
+            ->orderByDesc('chuong_cap_nhat_luc')
+            ->take(12)
+            ->get();
+        $excludeIds = array_merge($excludeIds, $truyenMoiCapNhat->pluck('id')->toArray());
+
+        // 4. Bảng xếp hạng (Vẫn giữ nguyên top thật, cho phép trùng vì là BXH)
         $trendingTop = Truyen::daXuatBan()
             ->orderByDesc('tong_luot_xem')
             ->take(5)
@@ -44,23 +50,9 @@ class TrangChuController extends Controller
             ->take(5)
             ->get();
 
-        $editorPicks = Truyen::daXuatBan()
-            ->orderByDesc('tong_luot_yeu_thich')
-            ->take(10)
-            ->get();
-
-        $dailyTop = Truyen::daXuatBan()
-            ->orderByDesc('chuong_cap_nhat_luc')
-            ->take(12)
-            ->get();
-
+        // 5. Truyện đã hoàn thành
         $truyenHoanThanh = Truyen::hoanThanh()
-            ->with([
-                'theLoai',
-                'chuongMoiNhat' => function($query) {
-                    $query->select('chuong.id', 'chuong.truyen_id', 'chuong.tieu_de', 'chuong.so_chuong', 'chuong.slug', 'chuong.updated_at');
-                }
-            ])
+            ->with(['theLoai', 'chuongMoiNhat'])
             ->orderByDesc('tong_luot_xem')
             ->take(10)
             ->get();
@@ -93,7 +85,6 @@ class TrangChuController extends Controller
             'trendingTop',
             'monthlyTop',
             'editorPicks',
-            'dailyTop',
             'topBinhLuans',
             'tinNhanCongDong'
         ));

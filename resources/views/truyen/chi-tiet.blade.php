@@ -65,7 +65,7 @@
                             {{ $truyen->trang_thai === 'hoan_thanh' ? 'Hoàn thành' : 'Đang ra' }}
                         </span>
                     </div>
-                    <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+                    <h1 class="text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl text-white">
                         {{ $truyen->tieu_de }}
                     </h1>
                     <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium text-white/80">
@@ -170,7 +170,7 @@
                                 {{ $chapter->tieu_de }}
                             </span>
                             <span class="shrink-0 text-[10px]" style="color: var(--ui-muted);">
-                                {{ $chapter->created_at->format('d/m') }}
+                                {{ $chapter->created_at ? $chapter->created_at->format('d/m') : '' }}
                             </span>
                         </a>
                     @empty

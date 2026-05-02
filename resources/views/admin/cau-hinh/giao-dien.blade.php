@@ -8,19 +8,24 @@
         @csrf
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {{-- Branding --}}
+            {{-- Branding & General --}}
             <div class="space-y-6">
-                {{-- Logo & Favicon --}}
                 <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
+                    <h3 class="font-semibold text-lg mb-6 flex items-center gap-2">
                         <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        Nhận diện thương hiệu
+                        Thông tin cơ bản
                     </h3>
                     
                     <div class="space-y-6">
+                        {{-- Website Name --}}
+                        <div class="pb-6 border-b border-gray-100 dark:border-gray-700">
+                            <label class="block text-xs font-medium mb-1 uppercase tracking-wider text-gray-500">Tên Website</label>
+                            <input type="text" name="ten_website" value="{{ $ten_website }}" class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                        </div>
+
                         {{-- Logo --}}
                         <div class="flex items-center gap-4">
-                            <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center overflow-hidden">
+                            <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center overflow-hidden shrink-0">
                                 @if($logo)
                                     <img src="{{ asset('storage/' . $logo) }}" alt="Logo" class="max-w-full max-h-full object-contain">
                                 @else
@@ -39,8 +44,8 @@
                         </div>
 
                         {{-- Favicon --}}
-                        <div class="flex items-center gap-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                            <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center overflow-hidden">
+                        <div class="flex items-center gap-4 pt-6 border-t border-gray-100 dark:border-gray-700">
+                            <div class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center overflow-hidden shrink-0">
                                 @if($favicon)
                                     <img src="{{ asset('storage/' . $favicon) }}" alt="Favicon" class="w-8 h-8 object-contain">
                                 @else
@@ -61,46 +66,10 @@
                 </div>
             </div>
 
-            {{-- Contents --}}
+            {{-- Donate Section --}}
             <div class="space-y-6">
-                {{-- Banner Section --}}
                 <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 class="font-semibold text-lg mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg>
-                        Nội dung trang chủ
-                    </h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Tên Website</label>
-                            <input type="text" name="ten_website" value="{{ $ten_website }}" class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Tiêu đề Banner</label>
-                            <input type="text" name="banner_tieu_de" value="{{ $banner_tieu_de }}" class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Ảnh Banner</label>
-                            <input type="file" name="banner" class="text-xs mb-2 block">
-                            @if($banner)
-                                <div class="relative group max-w-xs">
-                                    <img src="{{ asset('storage/' . $banner) }}" class="w-full h-24 object-cover rounded-lg border border-gray-200 dark:border-gray-700 mb-2">
-                                </div>
-                            @endif
-                            <label class="inline-flex items-center text-xs text-gray-600 dark:text-gray-400 cursor-pointer">
-                                <input type="checkbox" name="banner_dung_gradient" value="1" {{ $banner_dung_gradient == '1' ? 'checked' : '' }} class="mr-2 rounded border-gray-300"> 
-                                Dùng màu gradient mặc định
-                            </label>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Mô tả Banner</label>
-                            <textarea name="banner_mo_ta" rows="3" class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">{{ $banner_mo_ta }}</textarea>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Donate Section --}}
-                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 class="font-semibold text-lg mb-4 flex items-center gap-2 text-indigo-500">
+                    <h3 class="font-semibold text-lg mb-6 flex items-center gap-2 text-indigo-500">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                         Ủng hộ (Donate)
                     </h3>
@@ -112,33 +81,36 @@
                                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
                             </label>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1 uppercase text-xs">Mã QR MOMO</label>
-                            <input type="file" name="donate_qr_momo" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition" />
-                            @if(\App\Models\CauHinh::lay('donate_qr_momo'))
-                                <div class="mt-2 flex items-center gap-2">
-                                    <img src="{{ asset('storage/' . \App\Models\CauHinh::lay('donate_qr_momo')) }}" class="w-16 h-16 object-cover rounded border" />
-                                    <span class="text-[10px] text-green-500">Đã có ảnh</span>
-                                </div>
-                            @endif
-                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2">QR MOMO</label>
+                                <input type="file" name="donate_qr_momo" class="w-full text-[10px]" />
+                                @if(\App\Models\CauHinh::lay('donate_qr_momo'))
+                                    <div class="mt-2 flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-700/30 rounded border dark:border-gray-600">
+                                        <img src="{{ asset('storage/' . \App\Models\CauHinh::lay('donate_qr_momo')) }}" class="w-10 h-10 object-cover rounded" />
+                                        <span class="text-[9px] text-green-500 font-bold uppercase">Sẵn có</span>
+                                    </div>
+                                @endif
+                            </div>
 
-                        <div>
-                            <label class="block text-sm font-medium mb-1 uppercase text-xs">Mã QR Ngân Hàng</label>
-                            <input type="file" name="donate_qr_bank" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition" />
-                            @if(\App\Models\CauHinh::lay('donate_qr_bank'))
-                                <div class="mt-2 flex items-center gap-2">
-                                    <img src="{{ asset('storage/' . \App\Models\CauHinh::lay('donate_qr_bank')) }}" class="w-16 h-16 object-cover rounded border" />
-                                    <span class="text-[10px] text-green-500">Đã có ảnh</span>
-                                </div>
-                            @endif
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500 mb-2">QR Ngân Hàng</label>
+                                <input type="file" name="donate_qr_bank" class="w-full text-[10px]" />
+                                @if(\App\Models\CauHinh::lay('donate_qr_bank'))
+                                    <div class="mt-2 flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-700/30 rounded border dark:border-gray-600">
+                                        <img src="{{ asset('storage/' . \App\Models\CauHinh::lay('donate_qr_bank')) }}" class="w-10 h-10 object-cover rounded" />
+                                        <span class="text-[9px] text-green-500 font-bold uppercase">Sẵn có</span>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium mb-1">Nội dung bổ sung (Hỗ trợ HTML)</label>
-                            <textarea name="donate_noi_dung" rows="6" placeholder="Nếu bạn có 1 ảnh mã QR, hãy dán URL ảnh vào đây: <img src='...' />"
-                                      class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg font-mono">{{ $donate_noi_dung }}</textarea>
-                            <p class="text-[10px] text-gray-400 mt-1">Dùng thẻ &lt;img src='...' /&gt; để hiển thị mã QR. Có thể sử dụng các class Tailwind để căn chỉnh.</p>
+                            <textarea name="donate_noi_dung" rows="5" placeholder="Ví dụ: <p>Nội dung...</p>"
+                                      class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg font-mono outline-none focus:ring-2 focus:ring-indigo-500 transition-all">{{ $donate_noi_dung }}</textarea>
+                            <p class="text-[10px] text-gray-400 mt-1 italic">Mẹo: Sử dụng thẻ &lt;img&gt; để nhúng thêm các mã QR khác.</p>
                         </div>
                     </div>
                 </div>

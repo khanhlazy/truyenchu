@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     @php
-        $siteName = \App\Models\CauHinh::lay('ten_website', 'Truyện Chữ');
+        $siteName = \App\Models\CauHinh::lay('ten_website', 'Đam Mê Truyện');
         $siteDescription = \App\Models\CauHinh::lay('mo_ta_website', 'Website đọc truyện chữ online miễn phí với kho truyện được cập nhật liên tục.');
         $siteLogo = \App\Models\CauHinh::urlLogo();
         $favicon = \App\Models\CauHinh::lay('favicon');
@@ -45,12 +45,8 @@
     <header class="sticky top-0 z-50 border-b" style="border-color: var(--ui-border); background: var(--ui-surface);">
         <div x-ref="headerShell" class="shell-container">
             <div class="flex h-14 items-center gap-3">
-                {{-- Logo --}}
                 <a href="{{ route('trang-chu') }}" class="flex items-center gap-2 shrink-0">
-                    @if($siteLogo)
-                        <img src="{{ $siteLogo }}" alt="{{ $siteName }}" class="h-8 w-auto object-contain">
-                    @endif
-                    <span class="text-lg font-bold" style="color: var(--ui-text);">{{ $siteName }}</span>
+                    <span class="text-xl font-bold tracking-tight" style="color: var(--ui-text);">Đam Mê <span style="color: var(--ui-primary);">Truyện</span></span>
                 </a>
 
                 {{-- Desktop nav links --}}
@@ -83,9 +79,12 @@
                 {{-- Right side --}}
                 <div class="ml-auto lg:ml-0 flex items-center gap-2">
                     {{-- Dark mode toggle --}}
+                    {{-- Dark mode toggle --}}
                     <button type="button" @click="toggleTheme()" class="icon-button" title="Chế độ tối">
-                        <svg x-show="!$store.theme.darkMode" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                        <svg x-show="$store.theme.darkMode" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        {{-- Moon icon: visible in light mode --}}
+                        <svg class="h-4 w-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        {{-- Sun icon: visible in dark mode --}}
+                        <svg class="h-4 w-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </button>
 
                     @auth
@@ -219,8 +218,10 @@
         <div class="shell-container">
             <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
-                    <h3 class="text-base font-bold" style="color: var(--ui-text);">{{ $siteName }}</h3>
-                    <p class="mt-2 text-sm leading-relaxed" style="color: var(--ui-muted);">{{ $siteDescription }}</p>
+                    <h3 class="text-xl font-black tracking-tight" style="color: var(--ui-text);">{{ mb_strtoupper($siteName) }}</h3>
+                    <p class="mt-4 text-sm leading-relaxed" style="color: var(--ui-muted);">
+                        Đọc truyện online, truyện chữ, truyện full, truyện hay. Tổng hợp đầy đủ các thể loại truyện từ ngôn tình, kiếm hiệp, tiên hiệp, huyền huyễn, đô thị, linh dị,...
+                    </p>
                 </div>
 
                 <div>

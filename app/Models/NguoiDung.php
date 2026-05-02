@@ -124,13 +124,15 @@ class NguoiDung extends Authenticatable
     {
         return $this->trang_thai === 'hoat_dong';
     }
-    // Lấy URL ảnh đại diện (nếu không có thì dùng ảnh mặc định)
+    // Lấy URL ảnh đại diện (nếu không có thì dùng ảnh mặc định hoặc chữ cái đầu)
     public function urlAnhDaiDien(): string
     {
         if ($this->anh_dai_dien) {
             return asset('storage/' . $this->anh_dai_dien);
         }
-        return asset('images/default-avatar.png');
+        
+        $name = urlencode($this->ten_hien_thi ?: $this->ten_dang_nhap);
+        return "https://ui-avatars.com/api/?name={$name}&color=4f46e5&background=eef2ff&semibold=true";
     }
 
     public function getUrlAnhDaiDienAttribute(): string

@@ -41,7 +41,7 @@
                     </td>
                     <td class="px-4 py-3 text-center hidden sm:table-cell">
                         @if($nd->biCamChat())
-                            <span class="text-xs text-red-500">Cấm đến {{ $nd->bi_cam_chat_den->format('d/m H:i') }}</span>
+                            <span class="text-xs text-red-500">Cấm đến {{ $nd->bi_cam_chat_den ? $nd->bi_cam_chat_den->format('d/m H:i') : '' }}</span>
                         @else
                             <span class="text-xs text-green-500">Bình thường</span>
                         @endif

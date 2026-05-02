@@ -11,54 +11,86 @@
     $bannerAnh = \App\Models\CauHinh::lay('banner');
 @endphp
 
-<div class="shell-container space-y-12 pb-12">
-    {{-- Premium Hero Section --}}
-    <section class="relative overflow-hidden rounded-[2rem] bg-slate-900 shadow-2xl">
-        <div class="absolute inset-0 opacity-40">
-            @if($bannerAnh)
-                <img src="{{ asset('storage/' . $bannerAnh) }}" alt="Hero Background" class="h-full w-full object-cover blur-sm scale-105">
-            @else
-                <div class="h-full w-full bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900"></div>
-            @endif
-            <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
-        </div>
-
-        <div class="relative z-10 grid gap-8 px-8 py-12 lg:grid-cols-2 lg:items-center lg:px-16 lg:py-20">
-            <div class="max-w-xl space-y-6">
-                <div class="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-indigo-400 ring-1 ring-indigo-500/20 backdrop-blur-md">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                    </span>
-                    Chào mừng bạn đến với {{ \App\Models\CauHinh::lay('ten_website', 'Truyện Chữ') }}
+<div class="shell-container space-y-8 pb-8">
+    {{-- Cinematic Main Hero Slider --}}
+    <section x-data="{ active: 0, total: {{ $truyenHot->take(5)->count() }} }" 
+             x-init="setInterval(() => active = (active + 1) % total, 5000)"
+             class="relative overflow-hidden rounded-[2.5rem] bg-[#0a0a10] shadow-2xl">
+        {{-- Backgrounds (Blurred + Trong Dong) --}}
+        @foreach($truyenHot->take(5) as $index => $story)
+            <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
+                 class="absolute inset-0 transition-opacity duration-1000">
+                <img src="{{ $story->urlAnhBia() }}" class="h-full w-full object-cover blur-[100px] opacity-20 scale-110">
+                {{-- Rotating Trong Dong Overlay --}}
+                <div class="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
+                    <img src="{{ asset('images/hero-bg.png') }}" class="h-[150%] w-auto max-w-none opacity-10 animate-spin-slow">
                 </div>
-                <h1 class="text-4xl font-extrabold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
-                    {{ $bannerTieuDe }}
-                </h1>
-                <p class="text-lg leading-relaxed text-slate-300">
-                    {{ $bannerMoTa }}
-                </p>
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <a href="{{ route('truyen.danh-sach') }}" class="inline-flex h-12 items-center justify-center rounded-xl bg-indigo-600 px-8 text-sm font-bold text-white transition-all hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/30">
-                        Bắt đầu đọc ngay
-                    </a>
-                    <a href="{{ route('tim-kiem') }}" class="inline-flex h-12 items-center justify-center rounded-xl bg-white/10 px-8 text-sm font-bold text-white transition-all hover:bg-white/20 backdrop-blur-md ring-1 ring-white/20">
-                        Tìm kiếm truyện
-                    </a>
+                <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a10] via-[#0a0a10]/60 to-transparent"></div>
+            </div>
+        @endforeach
+
+        <div class="relative z-10 px-6 py-6 lg:px-10 lg:py-8">
+            <div class="grid gap-6 lg:grid-cols-2 lg:items-center">
+                {{-- Left: Content --}}
+                @foreach($truyenHot->take(5) as $index => $story)
+                    <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
+                         class="space-y-3">
+                        <div class="inline-flex items-center gap-1.5 rounded-full bg-red-500/10 px-2 py-0.5 text-[7px] font-bold uppercase tracking-widest text-red-500 ring-1 ring-red-500/20 backdrop-blur-md">
+                            Hot
+                        </div>
+
+                        <div class="h-[48px] lg:h-[80px] flex items-end">
+                            <div class="space-y-1">
+                                <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-primary-500 opacity-80">Đam Mê Truyện</span>
+                                <h1 class="text-2xl font-extrabold leading-tight text-white lg:text-3xl line-clamp-2">
+                                    {{ $story->tieu_de }}
+                                </h1>
+                            </div>
+                        </div>
+                        
+                        <div class="h-[36px] flex items-start">
+                            <p class="max-w-md text-[11px] leading-relaxed text-slate-400 line-clamp-2">
+                                {{ $story->mo_ta_ngan ?: 'Khám phá tác phẩm hấp dẫn nhất hôm nay.' }}
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2.5 pt-1">
+                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="inline-flex h-9 items-center justify-center rounded-lg bg-red-600 px-6 text-[10px] font-bold text-white shadow-lg shadow-red-600/30 transition-transform active:scale-95">
+                                Đọc Ngay
+                            </a>
+                            <a href="{{ route('tim-kiem') }}" class="inline-flex h-9 items-center justify-center rounded-lg bg-white/5 px-5 text-[10px] font-bold text-white ring-1 ring-white/10 backdrop-blur-md hover:bg-white/10">
+                                Tìm kiếm
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+
+                {{-- Right: Cover Image --}}
+                <div class="relative flex justify-center lg:justify-end">
+                    @foreach($truyenHot->take(5) as $index => $story)
+                        <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
+                             class="relative aspect-[2/3] w-36 overflow-hidden rounded-xl shadow-2xl lg:w-48 transition-all duration-700 shadow-red-900/20">
+                            <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover">
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
-            <div class="hidden lg:flex justify-end">
-                <div class="relative grid grid-cols-2 gap-4 w-full max-w-md">
-                    @foreach($truyenHot->take(4) as $story)
-                        <div class="group relative aspect-[2/3] overflow-hidden rounded-2xl shadow-premium transition-all duration-500 hover:-translate-y-2 {{ $loop->index % 2 != 0 ? 'mt-8' : '' }}">
-                            <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
-                            <div class="absolute bottom-4 left-4 right-4">
-                                <h3 class="text-xs font-bold text-white line-clamp-1">{{ $story->tieu_de }}</h3>
-                            </div>
-                        </div>
-                    @endforeach
+            {{-- Slider Controls --}}
+            <div class="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
+                <div class="flex items-center gap-2">
+                    <span class="text-base font-bold text-white" x-text="(active + 1).toString().padStart(2, '0')"></span>
+                    <span class="text-[10px] font-bold text-slate-500">/</span>
+                    <span class="text-[10px] font-bold text-slate-500" x-text="total.toString().padStart(2, '0')"></span>
+                </div>
+
+                <div class="flex gap-2">
+                    <button @click="active = (active - 1 + total) % total" class="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-white ring-1 ring-white/10 hover:bg-white/10 transition-colors">
+                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button @click="active = (active + 1) % total" class="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-white ring-1 ring-white/10 hover:bg-white/10 transition-colors">
+                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -123,70 +155,81 @@
             </div>
         </section>
 
-        {{-- Sidebar Rankings --}}
-        <aside class="space-y-12">
-            {{-- Daily Ranking --}}
-            <section class="space-y-6">
-                <h3 class="text-xl font-bold" style="color: var(--ui-text);">Bảng xếp hạng</h3>
-                
-                <div class="rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] overflow-hidden">
-                    <div class="flex border-b border-[color:var(--ui-border)]">
-                        <button class="flex-1 py-3 text-xs font-bold uppercase tracking-wider text-primary-600 border-b-2 border-primary-600">Ngày</button>
-                        <button class="flex-1 py-3 text-xs font-bold uppercase tracking-wider text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]">Tháng</button>
-                    </div>
+            {{-- Sidebar Rankings --}}
+            <aside class="space-y-12">
+                {{-- Rankings --}}
+                <section class="space-y-6" x-data="{ tab: 'day' }">
+                    <h3 class="text-xl font-bold" style="color: var(--ui-text);">Bảng xếp hạng</h3>
+                    
+                    <div class="rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] overflow-hidden">
+                        <div class="flex border-b border-[color:var(--ui-border)]">
+                            <button @click="tab = 'day'" 
+                                    :class="tab === 'day' ? 'text-primary-600 border-primary-600' : 'text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]'"
+                                    class="flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all">Ngày</button>
+                            <button @click="tab = 'month'" 
+                                    :class="tab === 'month' ? 'text-primary-600 border-primary-600' : 'text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]'"
+                                    class="flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all">Tháng</button>
+                        </div>
 
-                    <div class="p-4 space-y-4">
-                        @foreach($trendingTop->take(5) as $story)
-                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="group flex items-center gap-4">
-                                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'bg-amber-500 text-white' : 'bg-[color:var(--ui-surface-muted)] text-[color:var(--ui-muted)]' }}">
-                                    {{ $loop->iteration }}
-                                </span>
-                                <div class="min-w-0 flex-1">
-                                    <h4 class="text-sm font-bold line-clamp-1 group-hover:text-primary-600" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
-                                    <p class="text-[11px]" style="color: var(--ui-muted);">{{ $story->luot_xem_ngay ?? 0 }} lượt xem</p>
-                                </div>
+                        {{-- Day Tab --}}
+                        <div x-cloak x-show="tab === 'day'" class="p-4 space-y-4">
+                            @foreach($trendingTop->take(5) as $story)
+                                <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="group flex items-center gap-4">
+                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : 'bg-[color:var(--ui-surface-muted)] text-[color:var(--ui-muted)]' }}">
+                                        {{ $loop->iteration }}
+                                    </span>
+                                    <div class="min-w-0 flex-1">
+                                        <h4 class="text-sm font-bold line-clamp-1 group-hover:text-primary-600" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
+                                        <p class="text-[11px]" style="color: var(--ui-muted);">{{ number_format($story->tong_luot_xem) }} lượt xem</p>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+
+                        {{-- Month Tab --}}
+                        <div x-cloak x-show="tab === 'month'" class="p-4 space-y-4">
+                            @foreach($monthlyTop->take(5) as $story)
+                                <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="group flex items-center gap-4">
+                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20' : 'bg-[color:var(--ui-surface-muted)] text-[color:var(--ui-muted)]' }}">
+                                        {{ $loop->iteration }}
+                                    </span>
+                                    <div class="min-w-0 flex-1">
+                                        <h4 class="text-sm font-bold line-clamp-1 group-hover:text-primary-600" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
+                                        <p class="text-[11px]" style="color: var(--ui-muted);">{{ number_format($story->tong_luot_theo_doi) }} theo dõi</p>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
+
+                {{-- Categories --}}
+                <section class="space-y-6">
+                    <h3 class="text-xl font-bold" style="color: var(--ui-text);">Thể loại nổi bật</h3>
+                    <div class="flex flex-wrap gap-2">
+                        @foreach($theLoaiNoiBat as $category)
+                            <a href="{{ route('the-loai.danh-sach', $category->slug) }}" class="inline-flex items-center rounded-xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] px-4 py-2 text-sm font-medium transition-all hover:border-primary-500 hover:text-primary-600">
+                                {{ $category->ten }}
                             </a>
                         @endforeach
                     </div>
-                </div>
-            </section>
-
-            {{-- Categories --}}
-            <section class="space-y-6">
-                <h3 class="text-xl font-bold" style="color: var(--ui-text);">Thể loại nổi bật</h3>
-                <div class="flex flex-wrap gap-2">
-                    @foreach($theLoaiNoiBat as $category)
-                        <a href="{{ route('the-loai.danh-sach', $category->slug) }}" class="inline-flex items-center rounded-xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] px-4 py-2 text-sm font-medium transition-all hover:border-primary-500 hover:text-primary-600">
-                            {{ $category->ten }}
-                        </a>
-                    @endforeach
-                </div>
-            </section>
-        </aside>
+                </section>
+            </aside>
     </div>
 
-    {{-- Editor Picks --}}
+    {{-- Editor Picks (Standard Grid) --}}
     <section class="space-y-6">
-        <div class="rounded-[2rem] bg-indigo-900 px-8 py-12 lg:px-16">
-            <div class="mb-8 flex items-end justify-between">
-                <div class="space-y-1">
-                    <h2 class="text-2xl font-bold tracking-tight text-white sm:text-3xl">Biên tập viên đề cử</h2>
-                    <p class="text-sm text-indigo-300">Những tác phẩm chất lượng không thể bỏ lỡ.</p>
-                </div>
+        <div class="flex items-end justify-between">
+            <div class="space-y-1">
+                <h2 class="text-2xl font-bold tracking-tight sm:text-3xl" style="color: var(--ui-text);">Biên tập viên đề cử</h2>
+                <p class="text-sm" style="color: var(--ui-muted);">Những tác phẩm chất lượng không thể bỏ lỡ.</p>
             </div>
+        </div>
 
-            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:gap-6">
-                @foreach($editorPicks->take(6) as $story)
-                    <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="group block">
-                        <div class="relative aspect-[2/3] overflow-hidden rounded-2xl shadow-xl transition-all duration-500 group-hover:-translate-y-2">
-                            <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
-                        </div>
-                        <h3 class="mt-3 text-sm font-bold text-white line-clamp-1 group-hover:text-indigo-300">{{ $story->tieu_de }}</h3>
-                        <p class="text-[11px] text-indigo-300">{{ $story->tac_gia ?: 'Ẩn danh' }}</p>
-                    </a>
-                @endforeach
-            </div>
+        <div class="story-grid">
+            @foreach($editorPicks->take(10) as $story)
+                @include('components.story-card', ['truyen' => $story])
+            @endforeach
         </div>
     </section>
 
@@ -209,10 +252,9 @@
         </div>
     </section>
 
-    {{-- Community Highlights --}}
     <section class="grid gap-8 lg:grid-cols-2">
         <div class="space-y-6">
-            <h3 class="text-xl font-bold" style="color: var(--ui-text);">Bình luận nổi bật</h3>
+            <h3 class="text-xl font-bold" style="color: var(--ui-text);">Bình luận mới nhất</h3>
             <div class="space-y-4">
                 @foreach($topBinhLuans->take(3) as $comment)
                     <div class="flex items-start gap-4 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] p-4 shadow-sm">
@@ -244,7 +286,7 @@
                             <div class="min-w-0 flex-1 rounded-2xl bg-[color:var(--ui-surface-muted)] px-4 py-2">
                                 <div class="flex items-center gap-2">
                                     <span class="text-xs font-bold" style="color: var(--ui-text);">{{ $message->nguoiDung?->ten_hien_thi ?: 'Thành viên' }}</span>
-                                    <span class="text-[10px]" style="color: var(--ui-muted);">{{ $message->created_at->format('H:i') }}</span>
+                                    <span class="text-[10px]" style="color: var(--ui-muted);">{{ $message->created_at ? $message->created_at->format('H:i') : '' }}</span>
                                 </div>
                                 <p class="mt-0.5 text-xs" style="color: var(--ui-text-secondary);">{{ $message->noi_dung }}</p>
                             </div>

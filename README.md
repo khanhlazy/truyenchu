@@ -85,7 +85,9 @@ Hệ thống sẽ chạy tại địa chỉ http://localhost:8000
 - Quản trị viên: admin@truyenchu.test (Mật khẩu: password)
 - Người dùng: user@truyenchu.test (Mật khẩu: password)
 
-## 7. THÔNG TIN DỰ ÁN
+## 7. GIAO DIỆN DỰ ÁN
+
+## 8. THÔNG TIN DỰ ÁN
 Nhóm thực hiện: Phoenix Stack
 
 | Thành viên          | Vai trò                                                          |

@@ -30,9 +30,9 @@
         --ui-success: #10b981;
         --ui-warning: #f59e0b;
         --ui-danger: #ef4444;
-        --ui-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-        --ui-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-        --ui-shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03);
+        --ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+        --ui-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        --ui-shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
         --ui-shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --ui-radius-sm: 6px;
         --ui-radius: 10px;
@@ -60,9 +60,9 @@
         --ui-success: #34d399;
         --ui-warning: #fbbf24;
         --ui-danger: #f87171;
-        --ui-shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-        --ui-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        --ui-shadow-md: 0 10px 15px rgba(0,0,0,0.4);
+        --ui-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+        --ui-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        --ui-shadow-md: 0 10px 15px rgba(0, 0, 0, 0.4);
     }
 
     [x-cloak] {
@@ -77,12 +77,36 @@
         background: var(--ui-bg);
     }
 
-    h1 { @apply text-4xl font-bold tracking-tight sm:text-5xl leading-[1.1]; color: var(--ui-text); }
-    h2 { @apply text-3xl font-bold tracking-tight sm:text-4xl leading-[1.2]; color: var(--ui-text); }
-    h3 { @apply text-2xl font-semibold tracking-tight sm:text-3xl leading-[1.3]; color: var(--ui-text); }
-    h4 { @apply text-xl font-semibold sm:text-2xl leading-[1.4]; color: var(--ui-text); }
-    h5 { @apply text-lg font-semibold leading-tight; color: var(--ui-text); }
-    h6 { @apply text-base font-semibold uppercase tracking-widest leading-tight; color: var(--ui-text); opacity: 0.8; }
+    h1 {
+        @apply text-4xl font-bold tracking-tight sm:text-5xl leading-[1.1];
+        color: var(--ui-text);
+    }
+
+    h2 {
+        @apply text-3xl font-bold tracking-tight sm:text-4xl leading-[1.2];
+        color: var(--ui-text);
+    }
+
+    h3 {
+        @apply text-2xl font-semibold tracking-tight sm:text-3xl leading-[1.3];
+        color: var(--ui-text);
+    }
+
+    h4 {
+        @apply text-xl font-semibold sm:text-2xl leading-[1.4];
+        color: var(--ui-text);
+    }
+
+    h5 {
+        @apply text-lg font-semibold leading-tight;
+        color: var(--ui-text);
+    }
+
+    h6 {
+        @apply text-base font-semibold uppercase tracking-widest leading-tight;
+        color: var(--ui-text);
+        opacity: 0.8;
+    }
 
     body {
         min-height: 100vh;
@@ -134,10 +158,33 @@
     }
 
     /* Line clamp utilities */
-    .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+    .line-clamp-1 {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-4 {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
 }
 
 
@@ -155,7 +202,7 @@
     }
 
     .page-stack {
-        @apply space-y-4 sm:space-y-6 lg:space-y-8;
+        @apply space-y-4 sm:space-y-6 lg:space-y-6;
     }
 
     /* --- Surfaces --- */
@@ -305,13 +352,19 @@
     /* --- Story grid & cards --- */
 
     .story-grid {
-        @apply grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5;
+        @apply grid grid-cols-3 gap-2 sm:gap-3 md:grid-cols-5 lg:grid-cols-6;
+    }
+    
+    @media (min-width: 1440px) {
+        .story-grid {
+            @apply lg:grid-cols-7;
+        }
     }
 
     @media (max-width: 479px) {
         .story-grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.625rem;
+            gap: 0.5rem;
         }
     }
 
@@ -345,12 +398,12 @@
     }
 
     .story-card-title {
-        @apply text-xs font-semibold leading-snug sm:text-sm;
+        @apply text-[12px] font-semibold leading-snug sm:text-[13px];
         color: var(--ui-text);
     }
 
     .story-card-meta {
-        @apply text-[11px] sm:text-xs;
+        @apply text-[9px] sm:text-[10px];
         color: var(--ui-muted);
     }
 
@@ -443,7 +496,7 @@
     }
 
     .detail-hero__inner {
-        @apply relative z-10 grid gap-4 p-4 text-white sm:gap-6 sm:p-6 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-center lg:p-8 min-w-0;
+        @apply relative z-10 grid gap-4 p-4 text-white sm:gap-6 sm:p-6 lg:grid-cols-[minmax(0, 1fr)_240px] lg:items-center lg:p-8 min-w-0;
     }
 
     .detail-hero .btn-primary {
@@ -676,11 +729,11 @@
         cursor: grabbing;
     }
 
-    .rail__track.is-dragging > * {
+    .rail__track.is-dragging>* {
         pointer-events: none;
     }
 
-    .rail__track > * {
+    .rail__track>* {
         scroll-snap-align: start;
     }
 

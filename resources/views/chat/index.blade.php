@@ -32,7 +32,7 @@
                         <div class="surface-panel-strong max-w-[min(100%,42rem)] px-4 py-3">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="text-sm font-semibold">{{ $tn->nguoiDung->ten_hien_thi }}</span>
-                                <span class="text-xs text-[color:var(--ui-muted)]">{{ $tn->created_at->format('H:i') }}</span>
+                                <span class="text-xs text-[color:var(--ui-muted)]">{{ $tn->created_at ? $tn->created_at->format('H:i') : '' }}</span>
                             </div>
                             <p class="mt-2 text-sm leading-7 text-[color:var(--ui-text)]">{{ $tn->noi_dung }}</p>
                         </div>

@@ -18,7 +18,7 @@
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                     <td class="px-4 py-3 font-medium">{{ $tn->nguoiDung?->ten_hien_thi }}</td>
                     <td class="px-4 py-3 max-w-md truncate">{{ $tn->noi_dung }}</td>
-                    <td class="px-4 py-3 text-gray-400 hidden sm:table-cell">{{ $tn->created_at->format('d/m/Y H:i') }}</td>
+                    <td class="px-4 py-3 text-gray-400 hidden sm:table-cell">{{ $tn->created_at ? $tn->created_at->format('d/m/Y H:i') : '' }}</td>
                     <td class="px-4 py-3 text-right">
                         <form method="POST" action="{{ route('admin.chat.xoa', $tn->id) }}" onsubmit="return confirm('Xóa tin nhắn này?')">
                             @csrf @method('DELETE')
