@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
 /* ================================================================
    DESIGN TOKENS
    Clean novel-reading platform — inspired by RoyalRoad / Webnovel
@@ -17,29 +19,31 @@
         --ui-surface-muted: #f1f3f5;
         --ui-border: #e9ecef;
         --ui-border-strong: #dee2e6;
-        --ui-text: #212529;
-        --ui-text-secondary: #495057;
-        --ui-muted: #868e96;
+        --ui-text: #1a1a2e;
+        --ui-text-secondary: #4b5563;
+        --ui-muted: #9ca3af;
         --ui-primary: #4f46e5;
         --ui-primary-strong: #4338ca;
         --ui-primary-soft: rgba(79, 70, 229, 0.08);
+        --ui-secondary: #ec4899;
         --ui-accent: #f59e0b;
-        --ui-success: #059669;
-        --ui-warning: #d97706;
-        --ui-danger: #dc2626;
+        --ui-success: #10b981;
+        --ui-warning: #f59e0b;
+        --ui-danger: #ef4444;
         --ui-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-        --ui-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-        --ui-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.06), 0 2px 4px -2px rgba(0,0,0,0.04);
+        --ui-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+        --ui-shadow-md: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.03);
+        --ui-shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --ui-radius-sm: 6px;
-        --ui-radius: 8px;
-        --ui-radius-lg: 12px;
-        --ui-radius-xl: 16px;
+        --ui-radius: 10px;
+        --ui-radius-lg: 14px;
+        --ui-radius-xl: 20px;
     }
 
     html.dark {
         color-scheme: dark;
         --ui-bg: #16161a;
-        --ui-bg-strong: #1a1a2e;
+        --ui-bg-strong: #111116;
         --ui-surface: #1e1e2e;
         --ui-surface-strong: #262637;
         --ui-surface-muted: #262637;
@@ -51,13 +55,14 @@
         --ui-primary: #818cf8;
         --ui-primary-strong: #a5b4fc;
         --ui-primary-soft: rgba(129, 140, 248, 0.12);
+        --ui-secondary: #f472b6;
         --ui-accent: #fbbf24;
-        --ui-success: #10b981;
-        --ui-warning: #f59e0b;
-        --ui-danger: #ef4444;
+        --ui-success: #34d399;
+        --ui-warning: #fbbf24;
+        --ui-danger: #f87171;
         --ui-shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-        --ui-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-        --ui-shadow-md: 0 4px 6px rgba(0,0,0,0.3);
+        --ui-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        --ui-shadow-md: 0 10px 15px rgba(0,0,0,0.4);
     }
 
     [x-cloak] {
@@ -65,12 +70,19 @@
     }
 
     html {
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: theme('fontFamily.sans');
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         scroll-behavior: smooth;
         background: var(--ui-bg);
     }
+
+    h1 { @apply text-4xl font-bold tracking-tight sm:text-5xl leading-[1.1]; color: var(--ui-text); }
+    h2 { @apply text-3xl font-bold tracking-tight sm:text-4xl leading-[1.2]; color: var(--ui-text); }
+    h3 { @apply text-2xl font-semibold tracking-tight sm:text-3xl leading-[1.3]; color: var(--ui-text); }
+    h4 { @apply text-xl font-semibold sm:text-2xl leading-[1.4]; color: var(--ui-text); }
+    h5 { @apply text-lg font-semibold leading-tight; color: var(--ui-text); }
+    h6 { @apply text-base font-semibold uppercase tracking-widest leading-tight; color: var(--ui-text); opacity: 0.8; }
 
     body {
         min-height: 100vh;
@@ -86,14 +98,19 @@
     }
 
     ::selection {
-        background: var(--ui-primary-soft);
-        color: var(--ui-text);
+        background: var(--ui-primary);
+        color: white;
     }
 
     /* Reading font — serif for long-form content */
     .prose,
-    .reading-copy {
-        font-family: 'Merriweather', Georgia, 'Times New Roman', serif;
+    .reading-copy,
+    .reading-content {
+        font-family: theme('fontFamily.reading');
+        font-size: theme('fontSize.reading-base');
+        color: var(--ui-text);
+        line-height: 2;
+        letter-spacing: 0.01em;
         -webkit-font-smoothing: auto;
         text-rendering: optimizeLegibility;
     }
@@ -174,7 +191,7 @@
     }
 
     .section-title {
-        @apply text-xl font-semibold tracking-tight;
+        @apply text-2xl font-semibold tracking-tight sm:text-3xl;
         color: var(--ui-text);
     }
 
@@ -199,16 +216,16 @@
 
     .btn-secondary {
         @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-semibold;
-        background: var(--ui-surface);
-        border: 1px solid var(--ui-border-strong);
+        background: transparent;
+        border: 1px solid var(--ui-secondary);
         border-radius: var(--ui-radius);
-        color: var(--ui-text);
-        transition: background 0.15s, border-color 0.15s;
+        color: var(--ui-secondary);
+        transition: background 0.15s, opacity 0.15s;
     }
 
     .btn-secondary:hover {
-        background: var(--ui-surface-muted);
-        border-color: var(--ui-muted);
+        background: rgba(236, 72, 153, 0.05);
+        opacity: 0.9;
     }
 
     .btn-quiet {
@@ -239,7 +256,7 @@
     .field-shell {
         @apply w-full px-3.5 py-2.5 text-sm outline-none;
         background: var(--ui-surface);
-        border: 1px solid var(--ui-border-strong);
+        border: 1px solid #e5e7eb;
         border-radius: var(--ui-radius);
         color: var(--ui-text);
         transition: border-color 0.15s, box-shadow 0.15s;
@@ -250,8 +267,8 @@
     }
 
     .field-shell:focus {
-        border-color: var(--ui-primary);
-        box-shadow: 0 0 0 3px var(--ui-primary-soft);
+        border: 2px solid var(--ui-primary);
+        box-shadow: none;
     }
 
     select.field-shell {
@@ -314,8 +331,13 @@
         transition: transform 0.2s;
     }
 
+    .story-card:hover .story-cover {
+        box-shadow: var(--ui-shadow-md);
+        transform: translateY(-4px);
+    }
+
     .story-card:hover .story-cover img {
-        transform: scale(1.03);
+        transform: scale(1.05);
     }
 
     .story-card-body {
@@ -603,14 +625,14 @@
     /* --- Reader --- */
 
     .reader-progress {
-        @apply fixed inset-x-0 top-0 z-[60] h-0.5;
+        @apply fixed inset-x-0 top-0 z-[60] h-1;
         background: var(--ui-border);
     }
 
     .reader-progress__bar {
         height: 100%;
         width: 0;
-        background: var(--ui-primary);
+        background: var(--ui-secondary);
         transition: width 0.1s linear;
     }
 

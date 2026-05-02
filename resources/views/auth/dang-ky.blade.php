@@ -21,7 +21,7 @@
                     <label class="mb-2 block text-sm font-semibold">Tên hiển thị</label>
                     <input type="text" name="ten_hien_thi" value="{{ old('ten_hien_thi') }}" required class="field-shell">
                     @error('ten_hien_thi')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -29,7 +29,7 @@
                     <label class="mb-2 block text-sm font-semibold">Tên đăng nhập</label>
                     <input type="text" name="ten_dang_nhap" value="{{ old('ten_dang_nhap') }}" required class="field-shell">
                     @error('ten_dang_nhap')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -37,7 +37,7 @@
                     <label class="mb-2 block text-sm font-semibold">Email</label>
                     <input type="email" name="email" value="{{ old('email') }}" required class="field-shell">
                     @error('email')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -46,7 +46,7 @@
                         <label class="mb-2 block text-sm font-semibold">Mật khẩu</label>
                         <input type="password" name="mat_khau" required class="field-shell">
                         @error('mat_khau')
-                            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                            <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>

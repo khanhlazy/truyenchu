@@ -36,7 +36,7 @@
                     <label class="mb-2 block text-sm font-semibold">Tên hiển thị</label>
                     <input type="text" name="ten_hien_thi" value="{{ old('ten_hien_thi', auth()->user()->ten_hien_thi) }}" class="field-shell">
                     @error('ten_hien_thi')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -44,7 +44,7 @@
                     <label class="mb-2 block text-sm font-semibold">Email</label>
                     <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" class="field-shell">
                     @error('email')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -76,7 +76,7 @@
                     <label class="mb-2 block text-sm font-semibold">Mật khẩu hiện tại</label>
                     <input type="password" name="mat_khau_cu" class="field-shell">
                     @error('mat_khau_cu')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -84,7 +84,7 @@
                     <label class="mb-2 block text-sm font-semibold">Mật khẩu mới</label>
                     <input type="password" name="mat_khau_moi" class="field-shell">
                     @error('mat_khau_moi')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 

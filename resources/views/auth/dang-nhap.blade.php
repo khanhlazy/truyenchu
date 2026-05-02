@@ -20,7 +20,7 @@
                     <label class="mb-2 block text-sm font-semibold">Tên đăng nhập hoặc Email</label>
                     <input type="text" name="dang_nhap" value="{{ old('dang_nhap') }}" required autofocus class="field-shell" placeholder="admin hoặc admin@example.com">
                     @error('dang_nhap')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -31,7 +31,7 @@
                     </div>
                     <input type="password" name="mat_khau" required class="field-shell">
                     @error('mat_khau')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 
