@@ -29,36 +29,42 @@
             </div>
         @endforeach
 
-        <div class="relative z-10 px-6 py-6 lg:px-10 lg:py-8">
-            <div class="grid gap-6 lg:grid-cols-2 lg:items-center">
+        <div class="relative z-10 px-6 py-10 lg:px-10 lg:py-16">
+            <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
                 {{-- Left: Content --}}
                 @foreach($truyenHot->take(5) as $index => $story)
                     <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
-                         class="space-y-3">
-                        <div class="inline-flex items-center gap-1.5 rounded-full bg-red-500/10 px-2 py-0.5 text-[7px] font-bold uppercase tracking-widest text-red-500 ring-1 ring-red-500/20 backdrop-blur-md">
-                            Hot
-                        </div>
+                         x-transition:enter="transition ease-out duration-500"
+                         x-transition:enter-start="opacity-0 translate-y-4"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         class="space-y-6">
+                        
+                        <div class="space-y-4">
+                            <div class="inline-flex items-center gap-2 rounded-full bg-red-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-500 ring-1 ring-red-500/30 backdrop-blur-md">
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                </span>
+                                Hot Story
+                            </div>
 
-                        <div class="h-[48px] lg:h-[80px] flex items-end">
-                            <div class="space-y-1">
-                                <span class="block text-[10px] font-bold uppercase tracking-[0.2em] text-primary-500 opacity-80">Đam Mê Truyện</span>
-                                <h1 class="text-2xl font-extrabold leading-tight text-white lg:text-3xl line-clamp-2">
+                            <div class="space-y-2">
+                                <span class="block text-xs font-bold uppercase tracking-[0.3em] text-primary-500/80">Đam Mê Truyện</span>
+                                <h1 class="text-3xl font-black leading-tight text-white lg:text-5xl lg:leading-[1.1] line-clamp-2 italic tracking-tight">
                                     {{ $story->tieu_de }}
                                 </h1>
                             </div>
-                        </div>
-                        
-                        <div class="h-[36px] flex items-start">
-                            <p class="max-w-md text-[11px] leading-relaxed text-slate-400 line-clamp-2">
-                                {{ $story->mo_ta_ngan ?: 'Khám phá tác phẩm hấp dẫn nhất hôm nay.' }}
+                            
+                            <p class="max-w-md text-sm leading-relaxed text-slate-400 line-clamp-3 lg:text-base lg:opacity-90">
+                                {{ $story->mo_ta_ngan ?: 'Khám phá tác phẩm hấp dẫn nhất hôm nay với cốt truyện lôi cuốn và kịch tính.' }}
                             </p>
                         </div>
 
-                        <div class="flex flex-wrap gap-2.5 pt-1">
-                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="inline-flex h-9 items-center justify-center rounded-lg bg-red-600 px-6 text-[10px] font-bold text-white shadow-lg shadow-red-600/30 transition-transform active:scale-95">
+                        <div class="flex flex-wrap gap-4">
+                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="inline-flex h-12 items-center justify-center rounded-xl bg-red-600 px-8 text-sm font-bold text-white shadow-xl shadow-red-600/40 transition-all hover:bg-red-700 hover:-translate-y-0.5 active:scale-95">
                                 Đọc Ngay
                             </a>
-                            <a href="{{ route('tim-kiem') }}" class="inline-flex h-9 items-center justify-center rounded-lg bg-white/5 px-5 text-[10px] font-bold text-white ring-1 ring-white/10 backdrop-blur-md hover:bg-white/10">
+                            <a href="{{ route('tim-kiem') }}" class="inline-flex h-12 items-center justify-center rounded-xl bg-white/10 px-6 text-sm font-bold text-white ring-1 ring-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
                                 Tìm kiếm
                             </a>
                         </div>
@@ -66,11 +72,15 @@
                 @endforeach
 
                 {{-- Right: Cover Image --}}
-                <div class="relative flex justify-center lg:justify-end">
+                <div class="relative hidden lg:flex justify-end">
                     @foreach($truyenHot->take(5) as $index => $story)
                         <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
-                             class="relative aspect-[2/3] w-36 overflow-hidden rounded-xl shadow-2xl lg:w-48 transition-all duration-700 shadow-red-900/20">
+                             x-transition:enter="transition ease-out duration-700"
+                             x-transition:enter-start="opacity-0 scale-90 translate-x-12"
+                             x-transition:enter-end="opacity-100 scale-100 translate-x-0"
+                             class="relative aspect-[2/3] w-64 overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 shadow-black/50 ring-1 ring-white/10">
                             <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         </div>
                     @endforeach
                 </div>
