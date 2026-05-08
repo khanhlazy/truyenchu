@@ -157,9 +157,9 @@
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="translate-y-full"
          x-transition:enter-end="translate-y-0"
-         class="fixed inset-0 z-[100] lg:hidden">
+         class="fixed inset-0 lg:hidden" style="z-index: 100;">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
-        <div @click.outside="openFilters = false" class="absolute inset-x-0 bottom-0 max-h-[90vh] overflow-y-auto rounded-t-xl bg-[color:var(--ui-surface)] p-6 shadow-overlay ring-1 ring-white/10">
+        <div @click.outside="openFilters = false" class="absolute inset-x-0 bottom-0 max-h-[90vh] overflow-y-auto rounded-t-xl bg-[color:var(--ui-surface)] p-6 pb-24 shadow-overlay ring-1 ring-white/10">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-xl font-bold" style="color: var(--ui-text);">Tùy chỉnh bộ lọc</h2>
                 <button @click="openFilters = false" class="flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--ui-surface-muted)]">
