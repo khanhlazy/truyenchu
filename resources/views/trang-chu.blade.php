@@ -15,7 +15,7 @@
     {{-- Cinematic Main Hero Slider --}}
     <section x-data="{ active: 0, total: {{ $truyenHot->take(5)->count() }} }" 
              x-init="setInterval(() => active = (active + 1) % total, 5000)"
-             class="relative overflow-hidden rounded-[2.5rem] bg-[#0a0a10] shadow-2xl">
+             class="relative overflow-hidden rounded-xl shadow-card" style="background: var(--ui-text);">
         {{-- Backgrounds (Blurred + Trong Dong) --}}
         @foreach($truyenHot->take(5) as $index => $story)
             <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
@@ -25,7 +25,7 @@
                 <div class="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none">
                     <img src="{{ asset('images/hero-bg.png') }}" class="h-[150%] w-auto max-w-none opacity-10 animate-spin-slow">
                 </div>
-                <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a10] via-[#0a0a10]/60 to-transparent"></div>
+                <div class="absolute inset-0" style="background: linear-gradient(90deg, var(--ui-text) 0%, rgba(29, 26, 36, 0.72) 58%, transparent 100%);"></div>
             </div>
         @endforeach
 
@@ -40,31 +40,31 @@
                          class="space-y-6">
                         
                         <div class="space-y-4">
-                            <div class="inline-flex items-center gap-2 rounded-full bg-red-500/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-red-500 ring-1 ring-red-500/30 backdrop-blur-md">
+                            <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.02em] ring-1 backdrop-blur-md" style="background: rgba(253, 86, 167, 0.14); color: #FD56A7; border-color: rgba(253, 86, 167, 0.28);">
                                 <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background: #FD56A7;"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2" style="background: #FD56A7;"></span>
                                 </span>
                                 Hot Story
                             </div>
 
                             <div class="space-y-2">
-                                <span class="block text-xs font-bold uppercase tracking-[0.3em] text-primary-500/80">Đam Mê Truyện</span>
-                                <h1 class="text-3xl font-black leading-tight text-white lg:text-5xl lg:leading-[1.1] line-clamp-2 italic tracking-tight">
+                                <span class="block text-xs font-medium uppercase tracking-[0.02em]" style="color: rgba(255, 255, 255, 0.72);">Đam Mê Truyện</span>
+                                <h1 class="line-clamp-2 text-[32px] font-bold leading-[1.2] text-white">
                                     {{ $story->tieu_de }}
                                 </h1>
                             </div>
                             
-                            <p class="max-w-md text-sm leading-relaxed text-slate-400 line-clamp-3 lg:text-base lg:opacity-90">
+                            <p class="max-w-md text-sm leading-relaxed text-white/75 line-clamp-3 lg:text-base">
                                 {{ $story->mo_ta_ngan ?: 'Khám phá tác phẩm hấp dẫn nhất hôm nay với cốt truyện lôi cuốn và kịch tính.' }}
                             </p>
                         </div>
 
                         <div class="flex flex-wrap gap-4">
-                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="inline-flex h-12 items-center justify-center rounded-xl bg-red-600 px-8 text-sm font-bold text-white shadow-xl shadow-red-600/40 transition-all hover:bg-red-700 hover:-translate-y-0.5 active:scale-95">
+                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="btn-primary">
                                 Đọc Ngay
                             </a>
-                            <a href="{{ route('tim-kiem') }}" class="inline-flex h-12 items-center justify-center rounded-xl bg-white/10 px-6 text-sm font-bold text-white ring-1 ring-white/20 backdrop-blur-md hover:bg-white/20 transition-all">
+                            <a href="{{ route('tim-kiem') }}" class="btn-secondary border-white/35 text-white hover:bg-white/10">
                                 Tìm kiếm
                             </a>
                         </div>
@@ -78,7 +78,7 @@
                              x-transition:enter="transition ease-out duration-700"
                              x-transition:enter-start="opacity-0 scale-90 translate-x-12"
                              x-transition:enter-end="opacity-100 scale-100 translate-x-0"
-                             class="relative aspect-[2/3] w-64 overflow-hidden rounded-2xl shadow-2xl transition-all duration-700 shadow-black/50 ring-1 ring-white/10">
+                             class="relative aspect-[2/3] w-64 overflow-hidden rounded-lg shadow-overlay transition-all duration-700 ring-1 ring-white/10">
                             <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         </div>
@@ -87,11 +87,11 @@
             </div>
 
             {{-- Slider Controls --}}
-            <div class="mt-6 flex items-center justify-between border-t border-white/5 pt-4">
+            <div class="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
                 <div class="flex items-center gap-2">
                     <span class="text-base font-bold text-white" x-text="(active + 1).toString().padStart(2, '0')"></span>
-                    <span class="text-[10px] font-bold text-slate-500">/</span>
-                    <span class="text-[10px] font-bold text-slate-500" x-text="total.toString().padStart(2, '0')"></span>
+                    <span class="text-[10px] font-bold text-white/45">/</span>
+                    <span class="text-[10px] font-bold text-white/45" x-text="total.toString().padStart(2, '0')"></span>
                 </div>
 
                 <div class="flex gap-2">
@@ -110,10 +110,10 @@
     <section class="space-y-6">
         <div class="flex items-end justify-between">
             <div class="space-y-1">
-                <h2 class="text-2xl font-bold tracking-tight sm:text-3xl" style="color: var(--ui-text);">Truyện đang được đọc nhiều</h2>
+                <h2 class="section-title">Truyện đang được đọc nhiều</h2>
                 <p class="text-sm" style="color: var(--ui-muted);">Khám phá những bộ truyện hot nhất trong cộng đồng.</p>
             </div>
-            <a href="{{ route('truyen.danh-sach', ['sap_xep' => 'luot_xem']) }}" class="group flex items-center gap-2 text-sm font-bold text-primary-600 dark:text-primary-400">
+            <a href="{{ route('truyen.danh-sach', ['sap_xep' => 'luot_xem']) }}" class="btn-quiet">
                 Xem tất cả
                 <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4-4m4 4H3"/></svg>
             </a>
@@ -132,22 +132,22 @@
         <section class="space-y-6">
             <div class="flex items-end justify-between">
                 <div class="space-y-1">
-                    <h2 class="text-2xl font-bold tracking-tight sm:text-3xl" style="color: var(--ui-text);">Mới cập nhật</h2>
+                    <h2 class="section-title">Mới cập nhật</h2>
                     <p class="text-sm" style="color: var(--ui-muted);">Cập nhật từng chương mới nhất cho độc giả.</p>
                 </div>
-                <a href="{{ route('truyen.danh-sach', ['sap_xep' => 'moi_cap_nhat']) }}" class="text-sm font-bold text-primary-600 dark:text-primary-400 hover:underline">
+                <a href="{{ route('truyen.danh-sach', ['sap_xep' => 'moi_cap_nhat']) }}" class="btn-quiet">
                     Xem toàn bộ
                 </a>
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2">
                 @foreach($truyenMoiCapNhat->take(12) as $story)
-                    <div class="group flex items-center gap-4 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] p-3 transition-all hover:border-primary-500/30 hover:shadow-premium">
+                    <div class="group flex items-center gap-4 rounded-lg border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] p-3 transition-all hover:-translate-y-0.5 hover:shadow-card">
                         <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="relative h-20 w-14 shrink-0 overflow-hidden rounded-lg">
                             <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
                         </a>
                         <div class="min-w-0 flex-1 space-y-1">
-                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="block text-sm font-bold line-clamp-1 hover:text-primary-600" style="color: var(--ui-text);">
+                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="block text-sm font-semibold line-clamp-1 hover:text-[color:var(--ui-primary)]" style="color: var(--ui-text);">
                                 {{ $story->tieu_de }}
                             </a>
                             <div class="flex items-center justify-between text-xs" style="color: var(--ui-muted);">
@@ -155,7 +155,7 @@
                                 <span class="shrink-0">{{ optional($story->chuongMoiNhat?->updated_at)->diffForHumans() ?? 'Vừa xong' }}</span>
                             </div>
                             @if($story->chuongMoiNhat)
-                                <a href="{{ route('chuong.doc', [$story->slug, $story->chuongMoiNhat->slug]) }}" class="inline-block text-xs font-medium text-primary-600 dark:text-primary-400">
+                                <a href="{{ route('chuong.doc', [$story->slug, $story->chuongMoiNhat->slug]) }}" class="inline-block text-xs font-medium text-[color:var(--ui-primary)]">
                                     Chương {{ $story->chuongMoiNhat->so_chuong }}: {{ \Illuminate\Support\Str::limit($story->chuongMoiNhat->tieu_de, 20) }}
                                 </a>
                             @endif
@@ -169,15 +169,15 @@
             <aside class="space-y-12">
                 {{-- Rankings --}}
                 <section class="space-y-6" x-data="{ tab: 'day' }">
-                    <h3 class="text-xl font-bold" style="color: var(--ui-text);">Bảng xếp hạng</h3>
+                    <h3 class="section-title">Bảng xếp hạng</h3>
                     
-                    <div class="rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] overflow-hidden">
+                    <div class="surface-panel overflow-hidden">
                         <div class="flex border-b border-[color:var(--ui-border)]">
                             <button @click="tab = 'day'" 
-                                    :class="tab === 'day' ? 'text-primary-600 border-primary-600' : 'text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]'"
+                                    :class="tab === 'day' ? 'text-[color:var(--ui-primary)] border-[color:var(--ui-primary)]' : 'text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]'"
                                     class="flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all">Ngày</button>
                             <button @click="tab = 'month'" 
-                                    :class="tab === 'month' ? 'text-primary-600 border-primary-600' : 'text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]'"
+                                    :class="tab === 'month' ? 'text-[color:var(--ui-primary)] border-[color:var(--ui-primary)]' : 'text-[color:var(--ui-muted)] hover:text-[color:var(--ui-text)]'"
                                     class="flex-1 py-3 text-xs font-bold uppercase tracking-wider border-b-2 transition-all">Tháng</button>
                         </div>
 
@@ -185,11 +185,11 @@
                         <div x-cloak x-show="tab === 'day'" class="p-4 space-y-4">
                             @foreach($trendingTop->take(5) as $story)
                                 <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="group flex items-center gap-4">
-                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : 'bg-[color:var(--ui-surface-muted)] text-[color:var(--ui-muted)]' }}">
+                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'text-white' : 'bg-[color:var(--ui-surface-variant)] text-[color:var(--ui-muted)]' }}" style="{{ $loop->first ? 'background: var(--ui-secondary);' : '' }}">
                                         {{ $loop->iteration }}
                                     </span>
                                     <div class="min-w-0 flex-1">
-                                        <h4 class="text-sm font-bold line-clamp-1 group-hover:text-primary-600" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
+                                        <h4 class="text-sm font-semibold line-clamp-1 group-hover:text-[color:var(--ui-primary)]" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
                                         <p class="text-[11px]" style="color: var(--ui-muted);">{{ number_format($story->tong_luot_xem) }} lượt xem</p>
                                     </div>
                                 </a>
@@ -200,11 +200,11 @@
                         <div x-cloak x-show="tab === 'month'" class="p-4 space-y-4">
                             @foreach($monthlyTop->take(5) as $story)
                                 <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="group flex items-center gap-4">
-                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20' : 'bg-[color:var(--ui-surface-muted)] text-[color:var(--ui-muted)]' }}">
+                                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold {{ $loop->first ? 'text-white' : 'bg-[color:var(--ui-surface-variant)] text-[color:var(--ui-muted)]' }}" style="{{ $loop->first ? 'background: var(--ui-primary);' : '' }}">
                                         {{ $loop->iteration }}
                                     </span>
                                     <div class="min-w-0 flex-1">
-                                        <h4 class="text-sm font-bold line-clamp-1 group-hover:text-primary-600" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
+                                        <h4 class="text-sm font-semibold line-clamp-1 group-hover:text-[color:var(--ui-primary)]" style="color: var(--ui-text);">{{ $story->tieu_de }}</h4>
                                         <p class="text-[11px]" style="color: var(--ui-muted);">{{ number_format($story->tong_luot_theo_doi) }} theo dõi</p>
                                     </div>
                                 </a>
@@ -215,10 +215,10 @@
 
                 {{-- Categories --}}
                 <section class="space-y-6">
-                    <h3 class="text-xl font-bold" style="color: var(--ui-text);">Thể loại nổi bật</h3>
+                    <h3 class="section-title">Thể loại nổi bật</h3>
                     <div class="flex flex-wrap gap-2">
                         @foreach($theLoaiNoiBat as $category)
-                            <a href="{{ route('the-loai.danh-sach', $category->slug) }}" class="inline-flex items-center rounded-xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] px-4 py-2 text-sm font-medium transition-all hover:border-primary-500 hover:text-primary-600">
+                            <a href="{{ route('the-loai.danh-sach', $category->slug) }}" class="genre-chip">
                                 {{ $category->ten }}
                             </a>
                         @endforeach
@@ -231,7 +231,7 @@
     <section class="space-y-6">
         <div class="flex items-end justify-between">
             <div class="space-y-1">
-                <h2 class="text-2xl font-bold tracking-tight sm:text-3xl" style="color: var(--ui-text);">Biên tập viên đề cử</h2>
+                <h2 class="section-title">Biên tập viên đề cử</h2>
                 <p class="text-sm" style="color: var(--ui-muted);">Những tác phẩm chất lượng không thể bỏ lỡ.</p>
             </div>
         </div>
@@ -247,10 +247,10 @@
     <section class="space-y-6">
         <div class="flex items-end justify-between">
             <div class="space-y-1">
-                <h2 class="text-2xl font-bold tracking-tight sm:text-3xl" style="color: var(--ui-text);">Truyện đã hoàn thành</h2>
+                <h2 class="section-title">Truyện đã hoàn thành</h2>
                 <p class="text-sm" style="color: var(--ui-muted);">Đọc trọn bộ mà không cần chờ đợi.</p>
             </div>
-            <a href="{{ route('truyen.danh-sach', ['trang_thai' => 'hoan_thanh']) }}" class="text-sm font-bold text-primary-600 dark:text-primary-400 hover:underline">
+            <a href="{{ route('truyen.danh-sach', ['trang_thai' => 'hoan_thanh']) }}" class="btn-quiet">
                 Xem tất cả
             </a>
         </div>
@@ -264,19 +264,19 @@
 
     <section class="grid gap-8 lg:grid-cols-2">
         <div class="space-y-6">
-            <h3 class="text-xl font-bold" style="color: var(--ui-text);">Bình luận mới nhất</h3>
+            <h3 class="section-title">Bình luận mới nhất</h3>
             <div class="space-y-4">
                 @foreach($topBinhLuans->take(3) as $comment)
-                    <div class="flex items-start gap-4 rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] p-4 shadow-sm">
+                    <div class="surface-panel flex items-start gap-4 p-4">
                         <img src="{{ $comment->nguoiDung->urlAnhDaiDien() }}" alt="{{ $comment->nguoiDung->ten_hien_thi }}" class="h-10 w-10 shrink-0 rounded-full object-cover">
                         <div class="min-w-0 flex-1 space-y-1">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-bold" style="color: var(--ui-text);">{{ $comment->nguoiDung->ten_hien_thi }}</span>
+                                    <span class="text-sm font-semibold" style="color: var(--ui-text);">{{ $comment->nguoiDung->ten_hien_thi }}</span>
                                 <span class="text-[10px]" style="color: var(--ui-muted);">{{ $comment->created_at->diffForHumans() }}</span>
                             </div>
                             <p class="text-xs leading-relaxed line-clamp-2" style="color: var(--ui-text-secondary);">"{{ $comment->noi_dung }}"</p>
                             @if($comment->truyen)
-                                <a href="{{ route('truyen.chi-tiet', $comment->truyen->slug) }}" class="inline-block text-[10px] font-bold text-primary-600 uppercase tracking-wider">
+                                <a href="{{ route('truyen.chi-tiet', $comment->truyen->slug) }}" class="inline-block text-[10px] font-bold text-[color:var(--ui-primary)] uppercase tracking-[0.02em]">
                                     {{ $comment->truyen->tieu_de }}
                                 </a>
                             @endif
@@ -287,13 +287,13 @@
         </div>
 
         <div class="space-y-6">
-            <h3 class="text-xl font-bold" style="color: var(--ui-text);">Cộng đồng đang nói gì?</h3>
-            <div class="rounded-2xl border border-[color:var(--ui-border)] bg-[color:var(--ui-surface)] p-4">
+            <h3 class="section-title">Cộng đồng đang nói gì?</h3>
+            <div class="surface-panel p-4">
                 <div class="space-y-4">
                     @foreach($tinNhanCongDong->take(3) as $message)
                         <div class="flex items-start gap-3">
                             <img src="{{ $message->nguoiDung?->urlAnhDaiDien() }}" alt="Avatar" class="h-8 w-8 shrink-0 rounded-full object-cover">
-                            <div class="min-w-0 flex-1 rounded-2xl bg-[color:var(--ui-surface-muted)] px-4 py-2">
+                            <div class="min-w-0 flex-1 rounded-lg bg-[color:var(--ui-surface-variant)] px-4 py-2">
                                 <div class="flex items-center gap-2">
                                     <span class="text-xs font-bold" style="color: var(--ui-text);">{{ $message->nguoiDung?->ten_hien_thi ?: 'Thành viên' }}</span>
                                     <span class="text-[10px]" style="color: var(--ui-muted);">{{ $message->created_at ? $message->created_at->format('H:i') : '' }}</span>
@@ -304,7 +304,7 @@
                     @endforeach
                 </div>
                 @auth
-                    <a href="{{ route('chat') }}" class="mt-6 flex h-10 items-center justify-center rounded-xl bg-primary-600/10 text-xs font-bold text-primary-600 transition-all hover:bg-primary-600 hover:text-white">
+                    <a href="{{ route('chat') }}" class="btn-primary mt-6 w-full text-xs">
                         Tham gia trò chuyện
                     </a>
                 @endauth

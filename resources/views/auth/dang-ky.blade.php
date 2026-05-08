@@ -8,7 +8,7 @@
         <section class="auth-panel">
             <div class="mb-8">
                 <span class="section-kicker">Đăng ký</span>
-                <h2 class="mt-4 text-3xl font-black tracking-tight">Tạo tài khoản mới</h2>
+                <h2 class="section-title mt-4">Tạo tài khoản mới</h2>
                 <p class="mt-3 text-sm leading-7 text-[color:var(--ui-muted)]">
                     Chỉ vài bước đơn giản để cá nhân hóa trải nghiệm đọc truyện của bạn.
                 </p>

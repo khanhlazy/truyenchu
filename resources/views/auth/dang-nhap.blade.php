@@ -8,7 +8,7 @@
         <section class="auth-panel">
             <div class="mb-8">
                 <span class="section-kicker">Đăng nhập</span>
-                <h2 class="mt-4 text-3xl font-black tracking-tight">Chào mừng trở lại</h2>
+                <h2 class="section-title mt-4">Chào mừng trở lại</h2>
                 <p class="mt-3 text-sm leading-7 text-[color:var(--ui-muted)]">
                     Đăng nhập để tiếp tục khám phá thư viện của bạn.
                 </p>

@@ -3,21 +3,21 @@
 @section('page_title', 'Quản Lý Bình Luận')
 
 @section('content')
-<form method="GET" class="flex gap-2 mb-6">
-    <select name="trang_thai" class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+<form method="GET" class="mb-6 flex flex-col gap-2 sm:flex-row">
+    <select name="trang_thai" class="field-shell sm:w-40">
         <option value="">Tất cả</option>
         <option value="cho_duyet" {{ request('trang_thai') == 'cho_duyet' ? 'selected' : '' }}>Chờ duyệt</option>
         <option value="hien_thi" {{ request('trang_thai') == 'hien_thi' ? 'selected' : '' }}>Hiển thị</option>
         <option value="an" {{ request('trang_thai') == 'an' ? 'selected' : '' }}>Ẩn</option>
     </select>
     <input type="text" name="tu_khoa" value="{{ request('tu_khoa') }}" placeholder="Tìm nội dung..."
-           class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg w-64">
-    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">Lọc</button>
+           class="field-shell sm:w-64">
+    <button type="submit" class="btn-primary">Lọc</button>
 </form>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-50 dark:bg-gray-700/50">
+<div class="app-table-wrap">
+    <table class="app-table">
+        <thead>
             <tr>
                 <th class="px-4 py-3 text-left font-medium">Nội dung</th>
                 <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Người dùng</th>
@@ -26,7 +26,7 @@
                 <th class="px-4 py-3 text-right font-medium">Hành động</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+        <tbody>
             @forelse($binhLuans as $bl)
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                     <td class="px-4 py-3 max-w-xs truncate">{{ Str::limit($bl->noi_dung, 80) }}</td>

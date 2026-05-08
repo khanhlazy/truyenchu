@@ -10,9 +10,9 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {{-- Branding & General --}}
             <div class="space-y-6">
-                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+                <div class="surface-panel p-6">
                     <h3 class="font-semibold text-lg mb-6 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <svg class="w-5 h-5 text-[color:var(--ui-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         Thông tin cơ bản
                     </h3>
                     
@@ -20,7 +20,7 @@
                         {{-- Website Name --}}
                         <div class="pb-6 border-b border-gray-100 dark:border-gray-700">
                             <label class="block text-xs font-medium mb-1 uppercase tracking-wider text-gray-500">Tên Website</label>
-                            <input type="text" name="ten_website" value="{{ $ten_website }}" class="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                            <input type="text" name="ten_website" value="{{ $ten_website }}" class="field-shell">
                         </div>
 
                         {{-- Logo --}}
@@ -68,17 +68,17 @@
 
             {{-- Donate Section --}}
             <div class="space-y-6">
-                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 class="font-semibold text-lg mb-6 flex items-center gap-2 text-indigo-500">
+                <div class="surface-panel p-6">
+                    <h3 class="font-semibold text-lg mb-6 flex items-center gap-2 text-[color:var(--ui-primary)]">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
                         Ủng hộ (Donate)
                     </h3>
                     <div class="space-y-4">
-                        <div class="flex items-center justify-between p-3 bg-indigo-50 dark:bg-indigo-900/10 rounded-lg">
-                            <span class="text-sm font-medium text-indigo-700 dark:text-indigo-400">Hiển thị link Donate</span>
+                        <div class="flex items-center justify-between rounded-lg bg-[color:var(--ui-surface-variant)] p-3">
+                            <span class="text-sm font-medium" style="color: var(--ui-text-secondary);">Hiển thị link Donate</span>
                             <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" name="donate_bat" value="1" {{ $donate_bat == '1' ? 'checked' : '' }} class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+                                <div class="peer h-6 w-11 rounded-full bg-[color:var(--ui-surface-elevated)] after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-[color:var(--ui-border)] after:bg-white after:transition-all after:content-[''] peer-checked:bg-[color:var(--ui-primary)] peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none"></div>
                             </label>
                         </div>
                         
@@ -109,7 +109,7 @@
                         <div>
                             <label class="block text-sm font-medium mb-1">Nội dung bổ sung (Hỗ trợ HTML)</label>
                             <textarea name="donate_noi_dung" rows="5" placeholder="Ví dụ: <p>Nội dung...</p>"
-                                      class="w-full px-3 py-2 text-sm bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg font-mono outline-none focus:ring-2 focus:ring-indigo-500 transition-all">{{ $donate_noi_dung }}</textarea>
+                                      class="field-shell textarea-shell font-mono">{{ $donate_noi_dung }}</textarea>
                             <p class="text-[10px] text-gray-400 mt-1 italic">Mẹo: Sử dụng thẻ &lt;img&gt; để nhúng thêm các mã QR khác.</p>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
         </div>
 
         <div class="flex justify-end pt-4">
-            <button type="submit" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-lg transition-all focus:ring-4 focus:ring-indigo-300">
+            <button type="submit" class="btn-primary">
                 Lưu tất cả thay đổi
             </button>
         </div>

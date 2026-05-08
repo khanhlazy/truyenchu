@@ -8,7 +8,7 @@
         <section class="auth-panel">
             <div class="mb-8">
                 <span class="section-kicker">Đặt lại mật khẩu</span>
-                <h2 class="mt-4 text-3xl font-black tracking-tight">Mật khẩu mới</h2>
+                <h2 class="section-title mt-4">Mật khẩu mới</h2>
                 <p class="mt-3 text-sm leading-7 text-[color:var(--ui-muted)]">
                     Hãy tạo một mật khẩu mới để tiếp tục truy cập tài khoản.
                 </p>

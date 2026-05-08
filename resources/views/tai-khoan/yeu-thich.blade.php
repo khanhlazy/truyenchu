@@ -6,8 +6,8 @@
 <div class="shell-container page-stack">
     <section class="hero-panel">
         <span class="section-kicker">Thư viện cá nhân</span>
-        <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">Danh sách truyện bạn đã đánh dấu yêu thích.</h1>
-        <p class="mt-4 max-w-2xl text-base leading-8 text-[color:var(--ui-muted)] sm:text-lg">
+        <h1 class="page-title mt-4">Danh sách truyện bạn đã đánh dấu yêu thích.</h1>
+        <p class="page-copy mt-4">
             Tập hợp lại những bộ bạn muốn đọc lại, giới thiệu cho bạn bè hoặc tiếp tục theo dõi lâu dài.
         </p>
     </section>
@@ -37,7 +37,7 @@
         <section class="empty-state">
             <div class="mx-auto max-w-lg">
                 <span class="section-kicker">Chưa có dữ liệu</span>
-                <h2 class="mt-4 text-3xl font-bold tracking-tight">Bạn chưa thêm truyện nào vào mục yêu thích.</h2>
+                <h2 class="section-title mt-4">Bạn chưa thêm truyện nào vào mục yêu thích.</h2>
                 <p class="mt-4 text-sm leading-7 text-[color:var(--ui-muted)] sm:text-base">
                     Khi bắt gặp một bộ đủ hợp gu, hãy lưu lại để quay lại nhanh hơn ở những lần đọc tiếp theo.
                 </p>

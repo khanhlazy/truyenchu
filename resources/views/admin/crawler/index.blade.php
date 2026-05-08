@@ -4,22 +4,22 @@
 
 @section('content')
 <div class="px-6 py-6" x-data="crawlerApp()">
-    <div class="flex items-center justify-between mb-6">
+    <div class="mb-6 flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Tool Cào Truyện Tự Động</h1>
-            <p class="text-gray-500 text-sm mt-1">Sử dụng HTML Dom Crawler để quét cấu trúc gốc (Hỗ trợ Ổn định: TruyenFull).</p>
+            <h1 class="page-title">Tool Cào Truyện Tự Động</h1>
+            <p class="page-copy mt-1">Sử dụng HTML Dom Crawler để quét cấu trúc gốc (Hỗ trợ Ổn định: TruyenFull).</p>
         </div>
     </div>
 
     {{-- Form nhập link --}}
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+    <div class="surface-panel mb-6 p-6">
         <label class="block text-sm font-semibold mb-2">Dán danh sách Link truyện cần cào (Nguồn: TruyenFull.vision)</label>
         <div class="flex flex-col gap-3">
             <textarea x-model="urlsInput" rows="5" placeholder="Mỗi link nằm trên một dòng. VD:&#10;https://truyenfull.vision/xuyen-thanh-nu-chinh-lam-nong" 
-                   class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 font-mono text-sm"></textarea>
+                   class="field-shell textarea-shell font-mono"></textarea>
             
             <button @click="startBatch()" :disabled="isFetching" 
-                    class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition disabled:bg-indigo-300 flex items-center justify-center gap-3 shadow-lg shadow-indigo-500/20">
+                    class="btn-primary w-full gap-3 disabled:opacity-60">
                 <template x-if="!isFetching">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 </template>
@@ -36,7 +36,7 @@
     </div>
 
     {{-- Bộ giám sát Hàng đợi --}}
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+    <div class="surface-panel mb-6 p-6">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold">Trạng Thái Hệ Thống Chạy Ngầm</h2>
             <div class="flex items-center gap-2">
@@ -46,19 +46,19 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
-                <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase">Truyện Đang Chờ</span>
-                <div class="text-3xl font-black text-indigo-700 dark:text-indigo-300 mt-1" x-text="queueCount">0</div>
+            <div class="rounded-lg border border-[color:var(--ui-border)] bg-[color:var(--ui-surface-variant)] p-4">
+                <span class="text-xs font-semibold uppercase" style="color: var(--ui-primary);">Truyện Đang Chờ</span>
+                <div class="mt-1 text-[32px] font-bold leading-[1.2]" style="color: var(--ui-primary);" x-text="queueCount">0</div>
             </div>
-            <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-100 dark:border-red-800/50 relative group">
-                <span class="text-xs font-semibold text-red-600 dark:text-red-400 uppercase">Lỗi (Cần Kiểm Tra)</span>
-                <div class="text-3xl font-black text-red-700 dark:text-red-300 mt-1" x-text="failedCount">0</div>
+            <div class="group relative rounded-lg border border-[color:var(--ui-border)] bg-[color:var(--ui-surface-variant)] p-4">
+                <span class="text-xs font-semibold uppercase" style="color: var(--ui-danger);">Lỗi (Cần Kiểm Tra)</span>
+                <div class="mt-1 text-[32px] font-bold leading-[1.2]" style="color: var(--ui-danger);" x-text="failedCount">0</div>
                 <button x-show="failedCount > 0" @click="clearFailed()" 
                         class="absolute top-2 right-2 p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-md transition shadow-sm" title="Xóa danh sách lỗi">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                 </button>
             </div>
-            <div class="bg-gray-50 dark:bg-gray-900/20 p-4 rounded-xl border border-gray-100 dark:border-gray-800/50 flex flex-col justify-center">
+            <div class="flex flex-col justify-center rounded-lg border border-[color:var(--ui-border)] bg-[color:var(--ui-surface-variant)] p-4">
                 <p class="text-[10px] text-gray-500 leading-tight">Mẹo: Bạn có thể tắt trình duyệt đời máy tự cào. Đảm bảo đã chạy lệnh:</p>
                 <code class="text-[11px] bg-black text-green-400 p-1.5 rounded mt-2 select-all">php artisan queue:work</code>
             </div>
@@ -67,7 +67,7 @@
 
     {{-- Log Terminal --}}
     <template x-if="logs.length > 0">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <div class="surface-panel p-6">
             <h2 class="text-lg font-bold mb-4 border-b pb-2">Nhật Ký Phiên Làm Việc (Mất khi F5)</h2>
             
             <div class="mt-2">

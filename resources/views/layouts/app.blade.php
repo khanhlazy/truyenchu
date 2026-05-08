@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     @php
         $siteName = \App\Models\CauHinh::lay('ten_website', 'Đam Mê Truyện');
-        $siteDescription = \App\Models\CauHinh::lay('mo_ta_website', 'Website đọc truyện chữ online miễn phí với kho truyện được cập nhật liên tục.');
+        $siteDescription = \App\Models\CauHinh::lay('mo_ta_website', 'Website đọc truyện chữ online miễn phí with kho truyện được cập nhật liên tục.');
         $siteLogo = \App\Models\CauHinh::urlLogo();
         $favicon = \App\Models\CauHinh::lay('favicon');
         $categoryMenu = \App\Models\TheLoai::sapXep()->get();
@@ -41,19 +41,22 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
-<body x-data="uiShell()" @keydown.escape.window="closeAll()" class="min-h-screen antialiased">
-    <header class="sticky top-0 z-50 border-b" style="border-color: var(--ui-border); background: var(--ui-surface);">
+<body x-data="uiShell()" @keydown.escape.window="closeAll()" class="min-h-screen antialiased pb-20 lg:pb-0 @hasSection('mobile_app_home') !pb-0 @endif">
+    <header class="sticky top-0 z-50 border-b glass-panel @hasSection('mobile_app_home') hidden lg:block @endif" style="border-color: var(--ui-border);">
         <div x-ref="headerShell" class="shell-container">
-            <div class="flex h-14 items-center gap-3">
+            <div class="flex h-16 items-center gap-3">
                 <a href="{{ route('trang-chu') }}" class="flex items-center gap-2 shrink-0">
-                    <span class="text-xl font-bold tracking-tight" style="color: var(--ui-text);">Đam Mê <span style="color: var(--ui-primary);">Truyện</span></span>
+                    <span class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white shadow-card" style="background: var(--ui-gradient-highlight);">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                    </span>
+                    <span class="text-base font-bold tracking-normal sm:text-lg" style="color: var(--ui-text);">Đam Mê <span style="color: var(--ui-primary);">Truyện</span></span>
                 </a>
 
                 {{-- Desktop nav links --}}
                 <nav class="hidden lg:flex items-center gap-1 ml-6">
                     <a href="{{ route('trang-chu') }}" class="nav-link">Trang chủ</a>
                     <a href="{{ route('truyen.danh-sach') }}" class="nav-link">Danh sách</a>
-                    <button type="button" @click.stop="toggleDropdown('genres')" class="nav-link">
+                    <button type="button" @click.prevent.stop="toggleDropdown('genres')" class="nav-link">
                         Thể loại
                         <svg class="h-3.5 w-3.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
@@ -64,10 +67,13 @@
                 </nav>
 
                 {{-- Search --}}
-                <form action="{{ route('tim-kiem') }}" method="GET" class="hidden lg:block flex-1 max-w-sm ml-auto mr-3">
+                <form action="{{ route('tim-kiem') }}" method="GET" class="hidden lg:block flex-1 max-w-md ml-auto mr-3">
                     <div class="relative">
                         <input type="text" name="tu_khoa" value="{{ request('tu_khoa') }}" placeholder="Tìm truyện, tác giả..."
-                               class="field-shell !py-2 pl-3.5 pr-9 text-sm" style="background: var(--ui-surface-muted);">
+                               class="field-shell !min-h-10 !py-2 pl-10 pr-9 text-sm" style="background: var(--ui-surface);">
+                        <svg class="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2" style="color: var(--ui-muted);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.2-5.2m0 0A7.3 7.3 0 105.5 5.5a7.3 7.3 0 0010.3 10.3z" />
+                        </svg>
                         <button type="submit" class="absolute right-2.5 top-1/2 -translate-y-1/2" style="color: var(--ui-muted);">
                             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.2-5.2m0 0A7.3 7.3 0 105.5 5.5a7.3 7.3 0 0010.3 10.3z" />
@@ -79,34 +85,31 @@
                 {{-- Right side --}}
                 <div class="ml-auto lg:ml-0 flex items-center gap-2">
                     {{-- Dark mode toggle --}}
-                    {{-- Dark mode toggle --}}
                     <button type="button" @click="toggleTheme()" class="icon-button" title="Chế độ tối">
-                        {{-- Moon icon: visible in light mode --}}
                         <svg class="h-4 w-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                        {{-- Sun icon: visible in dark mode --}}
                         <svg class="h-4 w-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     </button>
 
                     @auth
                         <div class="relative">
-                            <button type="button" @click.stop="toggleDropdown('account')" class="flex items-center gap-2 p-1 rounded-lg hover:bg-[color:var(--ui-surface-muted)]">
-                                <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="{{ auth()->user()->ten_hien_thi }}" class="h-7 w-7 rounded-full object-cover">
+                            <button type="button" @click.prevent.stop="toggleDropdown('account')" class="flex items-center gap-2 rounded-lg p-1.5 hover:bg-[color:var(--ui-surface-variant)]">
+                                <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="{{ auth()->user()->ten_hien_thi }}" class="h-8 w-8 rounded-full object-cover">
                                 <span class="hidden sm:block max-w-[100px] truncate text-sm font-medium">{{ auth()->user()->ten_hien_thi }}</span>
                             </button>
 
                             <template x-if="activeDropdown === 'account'">
-                                <div @click.stop x-transition class="absolute right-0 top-full mt-1.5 w-52 p-1 surface-panel ring-1 ring-black/5">
+                                <div x-cloak @click.stop @click.outside="closeDropdown('account')" x-transition class="absolute right-0 top-full mt-2 w-56 p-2 surface-panel ring-1 ring-black/5">
                                     <div class="text-sm">
-                                        <a href="{{ route('tai-khoan') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-muted)] font-medium">Tài khoản</a>
-                                        <a href="{{ route('yeu-thich') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-muted)] font-medium">Yêu thích</a>
-                                        <a href="{{ route('lich-su-doc') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-muted)] font-medium">Lịch sử</a>
+                                        <a href="{{ route('tai-khoan') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-variant)] font-medium">Tài khoản</a>
+                                        <a href="{{ route('yeu-thich') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-variant)] font-medium">Yêu thích</a>
+                                        <a href="{{ route('lich-su-doc') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-variant)] font-medium">Lịch sử</a>
                                         @if(auth()->user()->laAdmin())
-                                            <a href="{{ route('admin.dashboard') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-muted)] font-semibold mt-1 pt-2 border-t" style="color: var(--ui-primary); border-color: var(--ui-border);">Bảng điều khiển</a>
+                                            <a href="{{ route('admin.dashboard') }}" @click="closeAll()" class="flex px-3 py-2 rounded-md hover:bg-[color:var(--ui-surface-variant)] font-semibold mt-1 pt-2 border-t" style="color: var(--ui-primary); border-color: var(--ui-border);">Bảng điều khiển</a>
                                         @endif
                                     </div>
                                     <form method="POST" action="{{ route('dang-xuat') }}" class="mt-1 border-t pt-1" style="border-color: var(--ui-border);">
                                         @csrf
-                                        <button type="submit" class="flex w-full items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-950/20" style="color: var(--ui-danger);">Đăng xuất</button>
+                                        <button type="submit" class="flex w-full items-center px-3 py-2 text-sm font-medium rounded-md hover:bg-[color:var(--ui-surface-variant)]" style="color: var(--ui-danger);">Đăng xuất</button>
                                     </form>
                                 </div>
                             </template>
@@ -115,40 +118,40 @@
                         <a href="{{ route('dang-nhap') }}" class="btn-primary text-xs px-4 py-2">Đăng nhập</a>
                     @endauth
 
-                    <button type="button" @click="toggleMobileMenu()" class="icon-button lg:hidden">
+                    <button type="button" @click.prevent.stop="toggleMobileMenu()" class="icon-button lg:hidden">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
+
+                {{-- Genre dropdown (Moved inside headerShell) --}}
+                <template x-if="activeDropdown === 'genres'">
+                    <div x-cloak class="absolute left-0 top-full w-full border-t z-50 bg-[color:var(--ui-surface)] shadow-lg" style="border-color: var(--ui-border);" @click.outside="closeDropdown('genres')">
+                        <div class="shell-container py-6">
+                            <div @click.stop x-transition>
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-sm font-bold uppercase tracking-wider" style="color: var(--ui-text);">Thể loại truyện</h3>
+                                    <a href="{{ route('truyen.danh-sach') }}" @click="closeAll()" class="btn-quiet text-xs">Xem tất cả</a>
+                                </div>
+                                <div class="genre-chip-grid">
+                                    @foreach($categoryMenu as $category)
+                                        <a href="{{ route('the-loai.danh-sach', $category->slug) }}" @click="closeAll()" class="genre-chip">{{ $category->ten }}</a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
 
-        {{-- Genre dropdown --}}
-        <template x-if="activeDropdown === 'genres'">
-            <div class="hidden lg:block border-t" style="border-color: var(--ui-border);">
-                <div class="shell-container py-4">
-                    <div @click.stop x-transition>
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-sm font-semibold" style="color: var(--ui-text);">Thể loại truyện</h3>
-                            <a href="{{ route('truyen.danh-sach') }}" @click="closeAll()" class="btn-quiet text-xs">Xem tất cả</a>
-                        </div>
-                        <div class="genre-chip-grid">
-                            @foreach($categoryMenu as $category)
-                                <a href="{{ route('the-loai.danh-sach', $category->slug) }}" @click="closeAll()" class="genre-chip">{{ $category->ten }}</a>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </template>
-
         {{-- Mobile menu --}}
         <template x-if="mobileMenuOpen">
-            <div class="lg:hidden">
+            <div x-cloak class="lg:hidden">
                 <div class="fixed inset-0 z-[70]">
                     <button type="button" class="absolute inset-0 bg-black/30 backdrop-blur-sm" @click="closeAll()"></button>
-                    <div class="absolute inset-x-0 top-0 p-4 shadow-xl" style="background: var(--ui-surface); border-bottom: 1px solid var(--ui-border);" x-transition>
+                    <div class="absolute inset-x-4 top-4 rounded-xl p-4 shadow-xl" style="background: var(--ui-surface); border: 1px solid var(--ui-border);" x-transition>
                         <div class="space-y-4">
                             <form action="{{ route('tim-kiem') }}" method="GET">
                                 <input type="text" name="tu_khoa" value="{{ request('tu_khoa') }}" placeholder="Tìm truyện, tác giả..." class="field-shell">
@@ -210,15 +213,15 @@
         </div>
     @endif
 
-    <main class="relative z-10 flex-1 py-6">
+    <main class="relative z-10 flex-1 py-6 @hasSection('mobile_app_home') py-0 lg:py-6 @endif">
         @yield('content')
     </main>
 
-    <footer class="mt-8 border-t py-8" style="border-color: var(--ui-border); background: var(--ui-surface);">
+    <footer class="mt-8 border-t py-8 @hasSection('mobile_app_home') hidden lg:block @endif" style="border-color: var(--ui-border); background: var(--ui-surface);">
         <div class="shell-container">
             <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 <div>
-                    <h3 class="text-xl font-black tracking-tight" style="color: var(--ui-text);">{{ mb_strtoupper($siteName) }}</h3>
+                    <h3 class="text-xl font-semibold" style="color: var(--ui-text);">{{ mb_strtoupper($siteName) }}</h3>
                     <p class="mt-4 text-sm leading-relaxed" style="color: var(--ui-muted);">
                         Đọc truyện online, truyện chữ, truyện full, truyện hay. Tổng hợp đầy đủ các thể loại truyện từ ngôn tình, kiếm hiệp, tiên hiệp, huyền huyễn, đô thị, linh dị,...
                     </p>
@@ -251,6 +254,47 @@
             </div>
         </div>
     </footer>
+
+    <nav class="fixed inset-x-3 bottom-3 z-50 grid grid-cols-4 gap-1 rounded-xl border p-1 shadow-overlay backdrop-blur-xl lg:hidden @hasSection('mobile_app_home') hidden @endif"
+         style="border-color: var(--ui-border); background: color-mix(in srgb, var(--ui-surface) 86%, transparent);">
+        @php
+            $bottomNav = [
+                [
+                    'label' => 'Trang chủ',
+                    'url' => route('trang-chu'),
+                    'active' => request()->routeIs('trang-chu'),
+                    'icon' => 'M3 12l9-9 9 9M5 10v10h14V10',
+                ],
+                [
+                    'label' => 'Thư viện',
+                    'url' => route('truyen.danh-sach'),
+                    'active' => request()->routeIs('truyen.*', 'the-loai.*', 'chuong.doc'),
+                    'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                ],
+                [
+                    'label' => 'Tìm kiếm',
+                    'url' => route('tim-kiem'),
+                    'active' => request()->routeIs('tim-kiem'),
+                    'icon' => 'M21 21l-5.2-5.2m0 0A7.3 7.3 0 105.5 5.5a7.3 7.3 0 0010.3 10.3z',
+                ],
+                [
+                    'label' => 'Tài khoản',
+                    'url' => auth()->check() ? route('tai-khoan') : route('dang-nhap'),
+                    'active' => request()->routeIs('tai-khoan*', 'yeu-thich', 'lich-su-doc', 'theo-doi', 'dang-nhap', 'dang-ky', 'quen-mat-khau', 'dat-lai-mat-khau'),
+                    'icon' => 'M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0',
+                ],
+            ];
+        @endphp
+
+        @foreach($bottomNav as $item)
+            <a href="{{ $item['url'] }}" class="flex min-h-12 flex-col items-center justify-center gap-1 rounded-lg text-[11px] font-medium {{ $item['active'] ? 'nav-link-active' : '' }}" style="color: {{ $item['active'] ? 'var(--ui-primary)' : 'var(--ui-muted)' }};">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
+                </svg>
+                <span>{{ $item['label'] }}</span>
+            </a>
+        @endforeach
+    </nav>
 
     @stack('scripts')
 </body>

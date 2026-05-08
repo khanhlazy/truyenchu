@@ -40,19 +40,19 @@
         @endphp
 
         @foreach($stats as $stat)
-            <div class="relative overflow-hidden rounded-[2rem] bg-white dark:bg-slate-900 p-8 shadow-sm border border-slate-200 dark:border-slate-800 group hover:border-indigo-500 transition-all duration-300">
-                <div class="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-{{ $stat['color'] }}-500/5 transition-transform group-hover:scale-150"></div>
+            <div class="surface-panel group relative overflow-hidden p-6 transition-all duration-300 hover:-translate-y-0.5">
+                <div class="absolute -right-4 -top-4 h-24 w-24 rounded-full opacity-60 transition-transform group-hover:scale-150" style="background: var(--ui-primary-soft);"></div>
                 
                 <div class="flex items-center justify-between relative z-10">
-                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-{{ $stat['color'] }}-500/10 text-{{ $stat['color'] }}-600">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-[color:var(--ui-surface-variant)] text-[color:var(--ui-primary)]">
                         <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $stat['icon'] }}"/></svg>
                     </div>
-                    <span class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">{{ $stat['trend'] }}</span>
+                    <span class="tag-pill-muted text-[10px]">{{ $stat['trend'] }}</span>
                 </div>
 
                 <div class="mt-6 relative z-10">
-                    <p class="text-3xl font-extrabold text-slate-900 dark:text-white">{{ number_format($stat['value']) }}</p>
-                    <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">{{ $stat['label'] }}</p>
+                    <p class="text-[32px] font-bold leading-[1.2]" style="color: var(--ui-text);">{{ number_format($stat['value']) }}</p>
+                    <p class="mt-1 text-xs font-semibold uppercase tracking-[0.02em]" style="color: var(--ui-muted);">{{ $stat['label'] }}</p>
                 </div>
             </div>
         @endforeach
@@ -60,28 +60,28 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {{-- Recent Stories --}}
-        <div class="rounded-[2.5rem] bg-white dark:bg-slate-900 p-8 shadow-sm border border-slate-200 dark:border-slate-800">
+        <div class="surface-panel p-6">
             <div class="flex items-center justify-between mb-8">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">Truyện mới cập nhật</h3>
-                    <p class="text-xs font-medium text-slate-400">Danh sách các bộ truyện vừa được thêm</p>
+                    <h3 class="section-title">Truyện mới cập nhật</h3>
+                    <p class="text-xs font-medium" style="color: var(--ui-muted);">Danh sách các bộ truyện vừa được thêm</p>
                 </div>
-                <a href="{{ route('admin.truyen.danh-sach') }}" class="text-xs font-bold text-indigo-600 hover:underline uppercase tracking-widest">Xem tất cả</a>
+                <a href="{{ route('admin.truyen.danh-sach') }}" class="btn-quiet text-xs">Xem tất cả</a>
             </div>
 
             <div class="space-y-4">
                 @foreach($truyenMoiTao as $t)
-                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 group hover:bg-white dark:hover:bg-slate-800 transition-all border border-transparent hover:border-slate-200 dark:hover:border-slate-700">
-                        <div class="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-slate-200 dark:bg-slate-700">
+                    <div class="surface-panel-strong group flex items-center gap-4 p-4 transition-all">
+                        <div class="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-[color:var(--ui-surface-elevated)]">
                             <img src="{{ $t->url_anh }}" alt="" class="h-full w-full object-cover">
                         </div>
                         <div class="min-w-0 flex-1">
-                            <h4 class="truncate text-sm font-bold text-slate-900 dark:text-white">{{ $t->tieu_de }}</h4>
-                            <p class="text-xs text-slate-500 mt-0.5">Tác giả: {{ $t->tac_gia }}</p>
+                            <h4 class="truncate text-sm font-semibold" style="color: var(--ui-text);">{{ $t->tieu_de }}</h4>
+                            <p class="mt-0.5 text-xs" style="color: var(--ui-muted);">Tác giả: {{ $t->tac_gia }}</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase">{{ $t->created_at->diffForHumans() }}</p>
-                            <a href="{{ route('admin.truyen.sua', $t->id) }}" class="text-[10px] font-bold text-indigo-600 uppercase hover:underline mt-1 block">Chỉnh sửa</a>
+                            <p class="text-[10px] font-semibold uppercase" style="color: var(--ui-muted);">{{ $t->created_at->diffForHumans() }}</p>
+                            <a href="{{ route('admin.truyen.sua', $t->id) }}" class="mt-1 block text-[10px] font-semibold uppercase" style="color: var(--ui-primary);">Chỉnh sửa</a>
                         </div>
                     </div>
                 @endforeach
@@ -90,38 +90,38 @@
 
         {{-- Quick Actions & Activity --}}
         <div class="space-y-8">
-            <div class="rounded-[2.5rem] bg-indigo-600 p-8 shadow-xl shadow-indigo-600/20 text-white">
+            <div class="rounded-xl p-6 text-white shadow-card" style="background: var(--ui-gradient-highlight);">
                 <h3 class="text-lg font-bold">Thao tác nhanh</h3>
-                <p class="text-xs text-indigo-100 mt-1">Các công cụ thường dùng nhất</p>
+                <p class="mt-1 text-xs text-white/80">Các công cụ thường dùng nhất</p>
                 
                 <div class="grid grid-cols-2 gap-4 mt-8">
-                    <a href="{{ route('admin.truyen.tao-moi') }}" class="flex flex-col items-center justify-center gap-3 p-6 rounded-3xl bg-white/10 hover:bg-white/20 transition-all group">
-                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-white/20 group-hover:scale-110 transition-transform">
+                    <a href="{{ route('admin.truyen.tao-moi') }}" class="group flex flex-col items-center justify-center gap-3 rounded-lg bg-white/10 p-6 transition-all hover:bg-white/20">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-white/20 transition-transform group-hover:scale-105">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                         </div>
-                        <span class="text-xs font-bold uppercase tracking-widest">Thêm truyện</span>
+                        <span class="text-xs font-semibold uppercase tracking-[0.02em]">Thêm truyện</span>
                     </a>
-                    <a href="{{ route('admin.crawler.index') }}" class="flex flex-col items-center justify-center gap-3 p-6 rounded-3xl bg-white/10 hover:bg-white/20 transition-all group">
-                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-white/20 group-hover:scale-110 transition-transform">
+                    <a href="{{ route('admin.crawler.index') }}" class="group flex flex-col items-center justify-center gap-3 rounded-lg bg-white/10 p-6 transition-all hover:bg-white/20">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-white/20 transition-transform group-hover:scale-105">
                             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                         </div>
-                        <span class="text-xs font-bold uppercase tracking-widest">Cào truyện</span>
+                        <span class="text-xs font-semibold uppercase tracking-[0.02em]">Cào truyện</span>
                     </a>
                 </div>
             </div>
 
-            <div class="rounded-[2.5rem] bg-white dark:bg-slate-900 p-8 shadow-sm border border-slate-200 dark:border-slate-800">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Chương mới nhất</h3>
+            <div class="surface-panel p-6">
+                <h3 class="section-title mb-6">Chương mới nhất</h3>
                 <div class="space-y-4">
                     @foreach($chuongMoiTao->take(5) as $c)
                         <div class="flex items-center gap-3 text-sm">
-                            <div class="h-2 w-2 rounded-full bg-indigo-500"></div>
-                            <p class="flex-1 truncate text-slate-600 dark:text-slate-400">
-                                <span class="font-bold text-slate-900 dark:text-white">{{ $c->tieu_de }}</span>
+                            <div class="h-2 w-2 rounded-full" style="background: var(--ui-highlight);"></div>
+                            <p class="flex-1 truncate" style="color: var(--ui-text-secondary);">
+                                <span class="font-semibold" style="color: var(--ui-text);">{{ $c->tieu_de }}</span>
                                 <span class="mx-1">trong</span>
                                 <span class="italic">{{ $c->truyen?->tieu_de }}</span>
                             </p>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase shrink-0">{{ $c->created_at->diffForHumans() }}</span>
+                            <span class="shrink-0 text-[10px] font-semibold uppercase" style="color: var(--ui-muted);">{{ $c->created_at->diffForHumans() }}</span>
                         </div>
                     @endforeach
                 </div>

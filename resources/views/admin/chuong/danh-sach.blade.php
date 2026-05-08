@@ -3,12 +3,12 @@
 @section('page_title', 'Chương: ' . $truyen->tieu_de)
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
-    <div class="flex gap-4 items-center">
-        <a href="{{ route('admin.truyen.danh-sach') }}" class="text-sm text-gray-500 hover:text-indigo-600 transition">← Quay lại</a>
+<div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <div class="flex flex-wrap gap-4 items-center">
+        <a href="{{ route('admin.truyen.danh-sach') }}" class="btn-quiet">← Quay lại</a>
         <form method="GET" class="flex items-center gap-2" id="filterForm">
             <span class="text-sm text-gray-500">Hiển thị:</span>
-            <select name="per_page" onchange="document.getElementById('filterForm').submit()" class="px-2 py-1 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+            <select name="per_page" onchange="document.getElementById('filterForm').submit()" class="field-shell !min-h-9 !py-1">
                 <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
                 <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
                 <option value="500" {{ $perPage == 500 ? 'selected' : '' }}>500</option>
@@ -17,15 +17,15 @@
         </form>
     </div>
     <div class="flex items-center gap-2">
-        <button type="button" onclick="submitBulk('publish')" class="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition" id="btn-publish-all" style="display: none;">Đăng XB hàng loạt</button>
-        <button type="button" onclick="submitBulk('draft')" class="px-4 py-2 bg-gray-500 text-white text-sm rounded-lg hover:bg-gray-600 transition" id="btn-draft-all" style="display: none;">Bỏ XB hàng loạt</button>
-        <a href="{{ route('admin.chuong.tao-moi', $truyen->id) }}" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">+ Thêm chương</a>
+        <button type="button" onclick="submitBulk('publish')" class="btn-primary" id="btn-publish-all" style="display: none;">Đăng XB hàng loạt</button>
+        <button type="button" onclick="submitBulk('draft')" class="btn-secondary" id="btn-draft-all" style="display: none;">Bỏ XB hàng loạt</button>
+        <a href="{{ route('admin.chuong.tao-moi', $truyen->id) }}" class="btn-primary">+ Thêm chương</a>
     </div>
 </div>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-50 dark:bg-gray-700/50">
+<div class="app-table-wrap">
+    <table class="app-table">
+        <thead>
             <tr>
                 <th class="px-4 py-3 text-left w-8">
                     <input type="checkbox" id="selectAll" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" onchange="toggleAll(this)">
@@ -38,7 +38,7 @@
                 <th class="px-4 py-3 text-right font-medium">Hành động</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+        <tbody>
             @forelse($chuongs as $c)
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                     <td class="px-4 py-3">

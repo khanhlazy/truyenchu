@@ -8,7 +8,7 @@
         <section class="auth-panel">
             <div class="mb-8">
                 <span class="section-kicker">Quên mật khẩu</span>
-                <h2 class="mt-4 text-3xl font-black tracking-tight">Lấy lại mật khẩu</h2>
+                <h2 class="section-title mt-4">Lấy lại mật khẩu</h2>
                 <p class="mt-3 text-sm leading-7 text-[color:var(--ui-muted)]">
                     Điền email để nhận liên kết khôi phục tài khoản.
                 </p>
@@ -20,7 +20,7 @@
                     <label class="mb-2 block text-sm font-semibold">Email</label>
                     <input type="email" name="email" value="{{ old('email') }}" required autofocus class="field-shell">
                     @error('email')
-                        <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+                        <p class="mt-2 text-xs" style="color: var(--ui-danger);">{{ $message }}</p>
                     @enderror
                 </div>
 

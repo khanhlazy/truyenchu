@@ -11,8 +11,8 @@
 <div x-data="{ openFilters: false }" class="shell-container page-stack">
     {{-- Page header --}}
     <section class="hero-panel">
-        <h1 class="text-2xl font-bold tracking-tight" style="color: var(--ui-text);">Tìm kiếm truyện</h1>
-        <p class="mt-1 text-sm" style="color: var(--ui-muted);">Tìm theo tên truyện, tác giả, thể loại hoặc trạng thái.</p>
+        <h1 class="page-title">Tìm kiếm truyện</h1>
+        <p class="page-copy mt-1">Tìm theo tên truyện, tác giả, thể loại hoặc trạng thái.</p>
     </section>
 
     {{-- Filters --}}

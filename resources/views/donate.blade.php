@@ -11,8 +11,8 @@
 <div class="shell-container page-stack">
     <section class="hero-panel">
         <span class="section-kicker">Ủng hộ website</span>
-        <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">Một khoản đóng góp nhỏ sẽ giúp thư viện truyện chạy mượt và được nâng cấp đều hơn.</h1>
-        <p class="mt-4 max-w-2xl text-base leading-8 text-[color:var(--ui-muted)] sm:text-lg">
+        <h1 class="page-title mt-4">Một khoản đóng góp nhỏ sẽ giúp thư viện truyện chạy mượt và được nâng cấp đều hơn.</h1>
+        <p class="page-copy mt-4">
             Nếu bạn thấy trải nghiệm đọc ở đây hữu ích, sự ủng hộ của bạn sẽ là động lực rất lớn để tiếp tục duy trì máy chủ, tối ưu giao diện và cập nhật tính năng mới.
         </p>
     </section>

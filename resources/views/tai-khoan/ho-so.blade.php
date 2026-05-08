@@ -9,8 +9,8 @@
             <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="{{ auth()->user()->ten_hien_thi }}" class="h-24 w-24 rounded-full object-cover ring-4 ring-white/70 dark:ring-white/10">
             <div>
                 <span class="section-kicker">Khu vực cá nhân</span>
-                <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">{{ auth()->user()->ten_hien_thi }}</h1>
-                <p class="mt-3 text-base leading-8 text-[color:var(--ui-muted)] sm:text-lg">
+                <h1 class="page-title mt-4">{{ auth()->user()->ten_hien_thi }}</h1>
+                <p class="page-copy mt-3">
                     Cập nhật thông tin, đổi mật khẩu và quản lý toàn bộ dữ liệu đọc của bạn từ một nơi duy nhất.
                 </p>
             </div>

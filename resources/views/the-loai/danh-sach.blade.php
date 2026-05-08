@@ -12,8 +12,8 @@
             <span>/</span>
             <span>Thể loại</span>
         </div>
-        <h1 class="text-2xl font-bold tracking-tight" style="color: var(--ui-text);">{{ $theLoai->ten }}</h1>
-        <p class="mt-1 text-sm" style="color: var(--ui-muted);">
+        <h1 class="page-title">{{ $theLoai->ten }}</h1>
+        <p class="page-copy mt-1">
             {{ $theLoai->mo_ta ?: ('Danh sách truyện thuộc thể loại ' . mb_strtolower($theLoai->ten) . '.') }}
         </p>
         <p class="mt-2 text-sm font-medium" style="color: var(--ui-text-secondary);">{{ number_format($truyens->total()) }} truyện</p>

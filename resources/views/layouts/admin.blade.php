@@ -21,17 +21,20 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-300">
+<body class="admin-shell min-h-screen transition-colors duration-300">
     <div class="flex min-h-screen">
         {{-- Sidebar --}}
         <aside :class="sidebarOpen ? 'w-72' : 'w-0 -translate-x-full lg:w-20 lg:translate-x-0'"
-               class="fixed inset-y-0 left-0 z-50 flex flex-col bg-slate-900 text-white transition-all duration-300 shadow-2xl lg:shadow-none">
+               class="admin-sidebar fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300">
             
             {{-- Brand --}}
-            <div class="flex h-20 items-center gap-3 border-b border-white/5 px-6 shrink-0 overflow-hidden">
+            <div class="flex h-20 items-center gap-3 border-b px-6 shrink-0 overflow-hidden" style="border-color: var(--ui-border);">
+                <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white" style="background: var(--ui-gradient-highlight);">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </span>
                 <div x-show="sidebarOpen" x-transition class="min-w-0">
-                    <h1 class="truncate text-sm font-bold uppercase tracking-widest text-white">ĐAM MÊ TRUYỆN</h1>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Hệ thống quản trị</p>
+                    <h1 class="truncate text-sm font-semibold uppercase tracking-[0.02em]" style="color: var(--ui-text);">ĐAM MÊ TRUYỆN</h1>
+                    <p class="text-[10px] font-medium uppercase tracking-[0.02em]" style="color: var(--ui-muted);">Hệ thống quản trị</p>
                 </div>
             </div>
 
@@ -52,8 +55,7 @@
 
                 @foreach($menu as $item)
                     <a href="{{ route($item['route']) }}"
-                       class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all group
-                              {{ request()->routeIs($item['route'] . '*') ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                       class="admin-nav-link group {{ request()->routeIs($item['route'] . '*') ? 'admin-nav-link-active' : '' }}">
                         <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"></path></svg>
                         <span x-show="sidebarOpen" class="whitespace-nowrap">{{ $item['label'] }}</span>
                     </a>
@@ -61,19 +63,19 @@
             </nav>
 
             {{-- Quick Stats --}}
-            <div x-show="sidebarOpen" class="p-4 border-t border-white/5 bg-slate-950/30">
-                <div class="rounded-2xl bg-indigo-500/10 p-4 ring-1 ring-indigo-500/20">
-                    <p class="text-[10px] font-bold uppercase tracking-widest text-indigo-400">Trạng thái hệ thống</p>
+            <div x-show="sidebarOpen" class="p-4 border-t" style="border-color: var(--ui-border);">
+                <div class="rounded-lg bg-[color:var(--ui-surface-variant)] p-4">
+                    <p class="text-[10px] font-semibold uppercase tracking-[0.02em]" style="color: var(--ui-primary);">Trạng thái hệ thống</p>
                     <div class="mt-2 flex items-center justify-between">
-                        <span class="text-xs font-medium text-slate-300">Bình thường</span>
+                        <span class="text-xs font-medium" style="color: var(--ui-text-secondary);">Bình thường</span>
                         <div class="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
                     </div>
                 </div>
             </div>
 
             {{-- Sidebar Footer --}}
-            <div class="border-t border-white/5 p-4 shrink-0 overflow-hidden bg-slate-950/50">
-                <a href="{{ route('trang-chu') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+            <div class="border-t p-4 shrink-0 overflow-hidden" style="border-color: var(--ui-border);">
+                <a href="{{ route('trang-chu') }}" class="admin-nav-link">
                     <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     <span x-show="sidebarOpen" class="whitespace-nowrap">Về trang chủ</span>
                 </a>
@@ -83,15 +85,15 @@
         {{-- Main Wrapper --}}
         <div :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-20'" class="flex-1 flex flex-col transition-all duration-300 min-w-0">
             {{-- Header --}}
-            <header class="h-20 flex items-center justify-between px-6 bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 backdrop-blur-xl sticky top-0 z-40">
+            <header class="admin-header flex items-center justify-between px-6">
                 <div class="flex items-center gap-4">
-                    <button @click="sidebarOpen = !sidebarOpen" class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-all">
+                    <button @click="sidebarOpen = !sidebarOpen" class="icon-button">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
                     <div class="hidden sm:block">
-                        <h2 class="text-sm font-bold text-slate-900 dark:text-white">@yield('page_title', 'Bảng quản trị')</h2>
-                        <nav class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-0.5">
-                            <span class="text-indigo-600">Admin</span>
+                        <h2 class="text-sm font-semibold" style="color: var(--ui-text);">@yield('page_title', 'Bảng quản trị')</h2>
+                        <nav class="mt-0.5 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.02em]" style="color: var(--ui-muted);">
+                            <span style="color: var(--ui-primary);">Admin</span>
                             <span>/</span>
                             <span>@yield('title')</span>
                         </nav>
@@ -100,23 +102,23 @@
 
                 <div class="flex items-center gap-4">
                     <button @click="darkMode = !darkMode; localStorage.setItem('darkMode', darkMode)"
-                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-all">
+                            class="icon-button">
                         <svg x-show="!darkMode" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                         <svg x-show="darkMode" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     </button>
 
-                    <div class="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 hidden sm:block"></div>
+                    <div class="h-8 w-[1px] hidden sm:block" style="background: var(--ui-border);"></div>
 
                     <div class="flex items-center gap-3">
                         <div class="text-right hidden sm:block">
-                            <p class="text-xs font-bold text-slate-900 dark:text-white">{{ auth()->user()->ten_hien_thi }}</p>
-                            <p class="text-[10px] font-bold text-indigo-500 uppercase">Administrator</p>
+                            <p class="text-xs font-semibold" style="color: var(--ui-text);">{{ auth()->user()->ten_hien_thi }}</p>
+                            <p class="text-[10px] font-semibold uppercase" style="color: var(--ui-primary);">Administrator</p>
                         </div>
-                        <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="Avatar" class="h-10 w-10 rounded-xl object-cover ring-2 ring-indigo-500/20">
+                        <img src="{{ auth()->user()->urlAnhDaiDien() }}" alt="Avatar" class="h-10 w-10 rounded-lg object-cover ring-2 ring-primary-600/20">
                         
                         <form method="POST" action="{{ route('dang-xuat') }}">
                             @csrf
-                            <button type="submit" class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                            <button type="submit" class="flex h-10 w-10 items-center justify-center rounded-lg transition-all shadow-sm" style="background: rgba(220, 38, 38, 0.08); color: var(--ui-danger);">
                                 <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             </button>
                         </form>
@@ -127,13 +129,13 @@
             {{-- Flash Messages --}}
             <div class="px-8 mt-6">
                 @if(session('thanh_cong'))
-                    <div class="rounded-2xl bg-green-500/10 p-4 border border-green-500/20 text-green-600 text-sm font-medium animate-fade-in flex items-center gap-3">
+                    <div class="surface-panel flex items-center gap-3 p-4 text-sm font-medium" style="color: var(--ui-success);">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {{ session('thanh_cong') }}
                     </div>
                 @endif
                 @if(session('loi'))
-                    <div class="rounded-2xl bg-red-500/10 p-4 border border-red-500/20 text-red-600 text-sm font-medium animate-fade-in flex items-center gap-3">
+                    <div class="surface-panel flex items-center gap-3 p-4 text-sm font-medium" style="color: var(--ui-danger);">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         {{ session('loi') }}
                     </div>

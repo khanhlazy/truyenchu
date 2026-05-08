@@ -3,15 +3,15 @@
 @section('page_title', 'Quản Lý Người Dùng')
 
 @section('content')
-<form method="GET" class="flex gap-2 mb-6">
+<form method="GET" class="mb-6 flex flex-col gap-2 sm:flex-row">
     <input type="text" name="tu_khoa" value="{{ request('tu_khoa') }}" placeholder="Tìm người dùng..."
-           class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg w-64">
-    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">Tìm</button>
+           class="field-shell sm:w-64">
+    <button type="submit" class="btn-primary">Tìm</button>
 </form>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-50 dark:bg-gray-700/50">
+<div class="app-table-wrap">
+    <table class="app-table">
+        <thead>
             <tr>
                 <th class="px-4 py-3 text-left font-medium">Người dùng</th>
                 <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Email</th>
@@ -21,7 +21,7 @@
                 <th class="px-4 py-3 text-right font-medium">Hành động</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+        <tbody>
             @forelse($nguoiDungs as $nd)
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                     <td class="px-4 py-3">

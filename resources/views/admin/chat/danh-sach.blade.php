@@ -3,9 +3,9 @@
 @section('page_title', 'Quản Lý Chat')
 
 @section('content')
-<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-50 dark:bg-gray-700/50">
+<div class="app-table-wrap">
+    <table class="app-table">
+        <thead>
             <tr>
                 <th class="px-4 py-3 text-left font-medium">Người gửi</th>
                 <th class="px-4 py-3 text-left font-medium">Nội dung</th>
@@ -13,7 +13,7 @@
                 <th class="px-4 py-3 text-right font-medium">Hành động</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+        <tbody>
             @forelse($tinNhans as $tn)
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                     <td class="px-4 py-3 font-medium">{{ $tn->nguoiDung?->ten_hien_thi }}</td>

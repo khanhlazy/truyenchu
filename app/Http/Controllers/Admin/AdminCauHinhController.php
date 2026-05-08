@@ -16,8 +16,8 @@ class AdminCauHinhController extends Controller
         $banner = CauHinh::lay('banner');
         $ten_website = CauHinh::lay('ten_website', 'TruyệnChữ');
         $mo_ta_website = CauHinh::lay('mo_ta_website', 'Website đọc truyện chữ online miễn phí');
-        $banner_tieu_de = CauHinh::lay('banner_tieu_de', 'Khám Phá Thế Giới Truyện Chữ');
-        $banner_mo_ta = CauHinh::lay('banner_mo_ta', 'Hàng nghìn bộ truyện hay đang chờ bạn');
+        $banner_tieu_de = CauHinh::lay('banner_tieu_de', '');
+        $banner_mo_ta = CauHinh::lay('banner_mo_ta', '');
         $banner_dung_gradient = CauHinh::lay('banner_dung_gradient', '0');
         
         // Donate

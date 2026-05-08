@@ -6,8 +6,8 @@
 <div class="shell-container page-stack">
     <section class="hero-panel">
         <span class="section-kicker">Nhịp đọc của bạn</span>
-        <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">Những bộ bạn đang theo dõi được gom lại thành một hàng đợi rất gọn.</h1>
-        <p class="mt-4 max-w-2xl text-base leading-8 text-[color:var(--ui-muted)] sm:text-lg">
+        <h1 class="page-title mt-4">Những bộ bạn đang theo dõi được gom lại thành một hàng đợi rất gọn.</h1>
+        <p class="page-copy mt-4">
             Từ đây bạn có thể quay lại các bộ đang đọc dở mà không cần nhớ chính xác tên hay chương cuối.
         </p>
     </section>
@@ -37,7 +37,7 @@
         <section class="empty-state">
             <div class="mx-auto max-w-lg">
                 <span class="section-kicker">Theo dõi trống</span>
-                <h2 class="mt-4 text-3xl font-bold tracking-tight">Bạn chưa theo dõi truyện nào.</h2>
+                <h2 class="section-title mt-4">Bạn chưa theo dõi truyện nào.</h2>
                 <p class="mt-4 text-sm leading-7 text-[color:var(--ui-muted)] sm:text-base">
                     Bật theo dõi ở các bộ bạn đang quan tâm để mỗi lần quay lại không phải tìm lại từ đầu.
                 </p>

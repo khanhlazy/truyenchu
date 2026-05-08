@@ -6,8 +6,8 @@
 <div class="shell-container page-stack" x-data="chatApp()">
     <section class="hero-panel">
         <span class="section-kicker">Cộng đồng</span>
-        <h1 class="mt-4 text-4xl font-black tracking-tight sm:text-5xl">{{ $phong->ten }}</h1>
-        <p class="mt-4 max-w-2xl text-base leading-8 text-[color:var(--ui-muted)] sm:text-lg">
+        <h1 class="page-title mt-4">{{ $phong->ten }}</h1>
+        <p class="page-copy mt-4">
             Nơi nói chuyện nhanh về truyện mới, chương hot và những màn plot twist vừa làm bạn đứng hình.
         </p>
     </section>
@@ -29,7 +29,7 @@
                     <div class="flex items-start gap-3">
                         <img src="{{ $tn->nguoiDung->urlAnhDaiDien() }}" alt="{{ $tn->nguoiDung->ten_hien_thi }}"
                              class="h-10 w-10 rounded-full object-cover ring-2 ring-white/60 dark:ring-white/10">
-                        <div class="surface-panel-strong max-w-[min(100%,42rem)] px-4 py-3">
+                            <div class="surface-panel-strong max-w-[min(100%,42rem)] px-4 py-3">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="text-sm font-semibold">{{ $tn->nguoiDung->ten_hien_thi }}</span>
                                 <span class="text-xs text-[color:var(--ui-muted)]">{{ $tn->created_at ? $tn->created_at->format('H:i') : '' }}</span>
@@ -55,14 +55,14 @@
             </div>
         </div>
 
-        <div class="border-t border-[color:var(--ui-border)] bg-white/45 px-4 py-4 dark:bg-white/5 sm:px-6">
+        <div class="border-t border-[color:var(--ui-border)] px-4 py-4 sm:px-6" style="background: var(--ui-surface-variant);">
             <form @submit.prevent="sendMessage" class="flex flex-col gap-3 sm:flex-row">
                 <input type="text" x-model="messageText" placeholder="Nhập tin nhắn..." maxlength="500" class="field-shell flex-1">
                 <button type="submit" :disabled="sending" class="btn-primary justify-center disabled:cursor-not-allowed disabled:opacity-60">
                     <span x-text="sending ? 'Đang gửi...' : 'Gửi tin nhắn'"></span>
                 </button>
             </form>
-            <p x-show="error" x-text="error" class="mt-2 text-xs text-red-500"></p>
+            <p x-show="error" x-text="error" class="mt-2 text-xs" style="color: var(--ui-danger);"></p>
         </div>
     </section>
 </div>

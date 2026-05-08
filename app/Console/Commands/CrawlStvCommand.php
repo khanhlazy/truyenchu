@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Models\Truyen;
 use App\Models\Chuong;
-use App\Models\TheLoai;
 
 class CrawlStvCommand extends Command
 {
@@ -68,20 +67,20 @@ class CrawlStvCommand extends Command
 
             $html = $response->body();
             
+            $tenTruyen = null;
+
             // Xử lý chuỗi JSON nếu STV trả về JSON string
             if (Str::startsWith(trim($html), '{') || Str::startsWith(trim($html), '[')) {
                 $data = json_decode($html, true);
-                if (isset($data['name'])) {
-                    $tenTruyen = $data['name'];
-                } else {
-                    $tenTruyen = "Truyện tự động cào ($bookId)";
-                }
-            } else {
-                // Đôi khi trả về HTML, ta bóc tách cơ bản.
-                $tenTruyen = "Truyện tự động cào ($bookId) - SangTacViet";
+                $tenTruyen = trim((string) ($data['name'] ?? '')) ?: null;
             }
 
-            $this->info("=> Đã tìm thấy truyện dự kiến: $tenTruyen");
+            if (!$tenTruyen) {
+                $this->error('Không đọc được tên truyện từ nguồn. Hủy để tránh tạo nội dung không xác thực.');
+                return 1;
+            }
+
+            $this->info("=> Đã tìm thấy truyện: $tenTruyen");
             
             // Cài đặt tạm thông tin
             $tacGia = 'Đang cập nhật';
@@ -100,7 +99,7 @@ class CrawlStvCommand extends Command
                         'mo_ta_ngan' => $moTa,
                         'mo_ta_day_du' => $moTa,
                         'trang_thai' => 'dang_ra',
-                        'luot_xem' => 0,
+                        'tong_luot_xem' => 0,
                     ]);
                     $this->info("Đã tạo mới truyện trong CSDL!");
                 } else {
@@ -140,15 +139,8 @@ class CrawlStvCommand extends Command
 
             if (empty($danhSachChapIds)) {
                 $this->error("Không tìm thấy chương nào trong phản hồi từ STV. API có thể đã thay đổi hoặc web chặn IP.");
-                // Fallback mô phỏng cho người dùng thấy luồng hoạt động
-                if ($this->confirm("API trả về lỗi hoặc chặn truy cập. Bạn có muốn chạy chế độ MÔ PHỎNG (tạo 5 chương giả lập) để xem code hoạt động không?", true)) {
-                    $danhSachChapIds = [1, 2, 3, 4, 5];
-                    $simMode = true;
-                } else {
-                    return 1;
-                }
+                return 1;
             } else {
-                $simMode = false;
                 $this->info("Thành công! Tìm thấy " . count($danhSachChapIds) . " chương.");
             }
 
@@ -160,9 +152,7 @@ class CrawlStvCommand extends Command
 
             foreach ($danhSachChapIds as $chapId) {
                 // Tránh lỗi do STV block IP => Delay 1s đến 2s ngẫu nhiên
-                if (!$simMode) {
-                    sleep(rand(1, 2));
-                }
+                sleep(rand(1, 2));
 
                 $chuongDaTonTai = Chuong::where('truyen_id', $truyen->id)->where('tieu_de', 'like', "%Chương " . ($soChuongCurent + 1) . "%")->exists();
                 
@@ -175,27 +165,27 @@ class CrawlStvCommand extends Command
                 $noiDung = "";
                 $tieuDeChuong = "";
 
-                if ($simMode) {
-                    $tieuDeChuong = "Chương " . ($soChuongCurent + 1) . ": Nội dung mô phỏng cào truyện";
-                    $noiDung = "Đây là nội dung mô phỏng tự động cho chương " . ($soChuongCurent + 1) . ". Do SangTacViet bật Cloudflare bảo mật chặn Bot HTTP, tool đang hoạt động ở chế độ Demo.";
+                // Gọi API đọc nội dung thật
+                $paramsRead = [
+                    'sajax' => 'readchapter',
+                    'host' => $hostStr,
+                    'id' => $bookId,
+                    'chap' => $chapId,
+                ];
+                $resRead = Http::withHeaders($this->headers)->timeout(15)->get('https://sangtacviet.com/index.php', $paramsRead);
+
+                if ($resRead->successful()) {
+                    $htmlChuong = $resRead->body();
+                    $noiDung = trim(strip_tags($htmlChuong));
+                    $tieuDeChuong = "Chương " . ($soChuongCurent + 1);
                 } else {
-                    // Gọi API đọc nội dung thật
-                    $paramsRead = [
-                        'sajax' => 'readchapter',
-                        'host' => $hostStr,
-                        'id' => $bookId,
-                        'chap' => $chapId,
-                    ];
-                    $resRead = Http::withHeaders($this->headers)->timeout(15)->get('https://sangtacviet.com/index.php', $paramsRead);
-                    
-                    if ($resRead->successful()) {
-                        $htmlChuong = $resRead->body();
-                        // STV thường gói trong thẻ text. Cào thô
-                        $noiDung = strip_tags($htmlChuong);
-                        $tieuDeChuong = "Chương " . ($soChuongCurent + 1);
-                    } else {
-                        $noiDung = "Lỗi khi cào dữ liệu chương này.";
-                    }
+                    $bar->advance();
+                    continue;
+                }
+
+                if ($noiDung === '') {
+                    $bar->advance();
+                    continue;
                 }
 
                 $soChuongCurent++;

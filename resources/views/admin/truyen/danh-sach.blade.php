@@ -3,24 +3,24 @@
 @section('page_title', 'Quản Lý Truyện')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
-    <form method="GET" class="flex gap-2">
+<div class="mb-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <form method="GET" class="flex flex-col gap-2 sm:flex-row">
         <input type="text" name="tu_khoa" value="{{ request('tu_khoa') }}" placeholder="Tìm truyện..."
-               class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 w-64">
-        <select name="trang_thai" class="px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+               class="field-shell sm:w-64">
+        <select name="trang_thai" class="field-shell sm:w-40">
             <option value="">Tất cả</option>
             <option value="dang_ra" {{ request('trang_thai') == 'dang_ra' ? 'selected' : '' }}>Đang ra</option>
             <option value="hoan_thanh" {{ request('trang_thai') == 'hoan_thanh' ? 'selected' : '' }}>Hoàn thành</option>
             <option value="tam_ngung" {{ request('trang_thai') == 'tam_ngung' ? 'selected' : '' }}>Tạm ngưng</option>
         </select>
-        <button type="submit" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">Lọc</button>
+        <button type="submit" class="btn-primary">Lọc</button>
     </form>
-    <a href="{{ route('admin.truyen.tao-moi') }}" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition">+ Thêm truyện</a>
+    <a href="{{ route('admin.truyen.tao-moi') }}" class="btn-primary">+ Thêm truyện</a>
 </div>
 
-<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-    <table class="w-full text-sm">
-        <thead class="bg-gray-50 dark:bg-gray-700/50">
+<div class="app-table-wrap">
+    <table class="app-table">
+        <thead>
             <tr>
                 <th class="px-4 py-3 text-left font-medium">Truyện</th>
                 <th class="px-4 py-3 text-left font-medium hidden md:table-cell">Trạng thái</th>
@@ -29,7 +29,7 @@
                 <th class="px-4 py-3 text-right font-medium">Hành động</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-gray-100 dark:divide-gray-700">
+        <tbody>
             @forelse($truyens as $t)
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                     <td class="px-4 py-3">

@@ -193,6 +193,6 @@ class Truyen extends Model
         if ($this->anh_bia) {
             return asset('storage/' . $this->anh_bia);
         }
-        return asset('images/default-cover.svg');
+        return '';
     }
 }
