@@ -10,7 +10,10 @@ class ChatController extends Controller
 {
     public function index()
     {
-        $phong = PhongChat::where('ma', 'chung')->firstOrFail();
+        $phong = PhongChat::firstOrCreate(
+            ['ma' => 'chung'],
+            ['ten' => 'Phòng Chung']
+        );
         $tinNhans = $phong->tinNhanMoiNhat()
             ->with('nguoiDung:id,ten_hien_thi,anh_dai_dien')
             ->take(50)
@@ -46,7 +49,10 @@ class ChatController extends Controller
             return response()->json(['loi' => 'Vui lòng đợi vài giây trước khi gửi tiếp.'], 429);
         }
 
-        $phong = PhongChat::where('ma', 'chung')->firstOrFail();
+        $phong = PhongChat::firstOrCreate(
+            ['ma' => 'chung'],
+            ['ten' => 'Phòng Chung']
+        );
 
         $tinNhan = TinNhanChat::create([
             'phong_chat_id' => $phong->id,
@@ -61,7 +67,10 @@ class ChatController extends Controller
 
     public function taiTinNhan(Request $request)
     {
-        $phong = PhongChat::where('ma', 'chung')->firstOrFail();
+        $phong = PhongChat::firstOrCreate(
+            ['ma' => 'chung'],
+            ['ten' => 'Phòng Chung']
+        );
         $lastId = $request->input('last_id', 0);
 
         $tinNhans = $phong->tinNhan()

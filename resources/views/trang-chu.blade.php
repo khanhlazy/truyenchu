@@ -16,10 +16,10 @@
     <section x-data="{ active: 0, total: {{ $truyenHot->take(5)->count() }} }" 
              x-init="setInterval(() => active = (active + 1) % total, 5000)"
              class="relative overflow-hidden rounded-xl shadow-card flex flex-col carousel-hero" 
-             style="background: var(--ui-text); height: 460px;">
+             style="background: var(--ui-text); height: 370px;">
         <style>
             @media (min-width: 1024px) {
-                .carousel-hero { height: 520px !important; }
+                .carousel-hero { height: 420px !important; }
             }
         </style>
         {{-- Backgrounds (Blurred + Trong Dong) --}}
@@ -35,7 +35,7 @@
             </div>
         @endforeach
 
-        <div class="relative z-10 flex flex-1 flex-col px-6 py-8 lg:px-10 lg:py-12">
+        <div class="relative z-10 flex flex-1 flex-col px-5 py-6 lg:px-8 lg:py-8">
             <div class="relative flex-1">
                 {{-- Left: Content --}}
                 @foreach($truyenHot->take(5) as $index => $story)
@@ -56,26 +56,26 @@
 
                             <div class="space-y-2">
                                 <span class="block text-xs font-medium uppercase tracking-[0.02em]" style="color: rgba(255, 255, 255, 0.72);">Đam Mê Truyện</span>
-                                <h1 class="line-clamp-2 text-[32px] font-bold leading-[1.2] text-white" style="min-height: 77px;">
+                                <h1 class="line-clamp-2 text-2xl font-bold leading-[1.2] text-white lg:text-[26px]" style="min-height: 58px;">
                                     {{ $story->tieu_de }}
                                 </h1>
                             </div>
                             
-                            <p class="max-w-md text-sm leading-relaxed text-white/75 line-clamp-3 lg:text-base carousel-desc" style="min-height: 69px;">
+                            <p class="max-w-md text-xs leading-relaxed text-white/75 line-clamp-3 lg:text-sm carousel-desc" style="min-height: 54px;">
                                 {{ $story->mo_ta_ngan ?: 'Khám phá tác phẩm hấp dẫn nhất hôm nay với cốt truyện lôi cuốn và kịch tính.' }}
                             </p>
                             <style>
                                 @media (min-width: 1024px) {
-                                    .carousel-desc { min-height: 78px !important; }
+                                    .carousel-desc { min-height: 63px !important; }
                                 }
                             </style>
                         </div>
 
-                        <div class="flex flex-wrap gap-4 mt-6">
-                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="btn-primary">
+                        <div class="flex flex-wrap gap-3 mt-4">
+                            <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="btn-primary !min-h-9 !px-4 !py-2 !text-xs">
                                 Đọc Ngay
                             </a>
-                            <a href="{{ route('tim-kiem') }}" class="btn-secondary border-white/35 text-white hover:bg-white/10">
+                            <a href="{{ route('tim-kiem') }}" class="btn-secondary border-white/35 text-white hover:bg-white/10 !min-h-9 !px-4 !py-2 !text-xs">
                                 Tìm kiếm
                             </a>
                         </div>
@@ -89,7 +89,7 @@
                              x-transition:enter="transition ease-out duration-700"
                              x-transition:enter-start="opacity-0 scale-90 translate-x-12"
                              x-transition:enter-end="opacity-100 scale-100 translate-x-0"
-                             class="relative aspect-[2/3] w-56 overflow-hidden rounded-lg shadow-overlay transition-all duration-700 ring-1 ring-white/10 pointer-events-auto">
+                             class="relative aspect-[2/3] w-44 lg:w-48 overflow-hidden rounded-lg shadow-overlay transition-all duration-700 ring-1 ring-white/10 pointer-events-auto">
                             <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         </div>
@@ -98,7 +98,7 @@
             </div>
 
             {{-- Slider Controls --}}
-            <div class="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+            <div class="mt-4 flex items-center justify-between border-t border-white/10 pt-3">
                 <div class="flex items-center gap-2">
                     <span class="text-base font-bold text-white" x-text="(active + 1).toString().padStart(2, '0')"></span>
                     <span class="text-[10px] font-bold text-white/45">/</span>

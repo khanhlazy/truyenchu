@@ -24,8 +24,8 @@
 <body class="admin-shell min-h-screen transition-colors duration-300">
     <div class="flex min-h-screen">
         {{-- Sidebar --}}
-        <aside :class="sidebarOpen ? 'w-72' : 'w-0 -translate-x-full lg:w-20 lg:translate-x-0'"
-               class="admin-sidebar fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300">
+        <aside :class="sidebarOpen ? 'w-72 translate-x-0' : '-translate-x-full lg:w-20 lg:translate-x-0'"
+               class="admin-sidebar fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 lg:w-72 lg:translate-x-0 w-72 -translate-x-full">
             
             {{-- Brand --}}
             <div class="flex h-20 items-center gap-3 border-b px-6 shrink-0 overflow-hidden" style="border-color: var(--ui-border);">
@@ -83,7 +83,7 @@
         </aside>
 
         {{-- Main Wrapper --}}
-        <div :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-20'" class="flex-1 flex flex-col transition-all duration-300 min-w-0">
+        <div :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-20'" class="flex-1 flex flex-col transition-all duration-300 min-w-0 lg:ml-72">
             {{-- Header --}}
             <header class="admin-header flex items-center justify-between px-6">
                 <div class="flex items-center gap-4">
