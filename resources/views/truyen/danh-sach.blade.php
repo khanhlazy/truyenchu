@@ -107,7 +107,7 @@
         </aside>
 
         {{-- Main Results Area --}}
-        <main class="space-y-6">
+        <main class="min-w-0 space-y-6">
             <div class="flex items-center justify-between">
                 <div class="space-y-1">
                     <h2 class="section-title">

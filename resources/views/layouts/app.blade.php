@@ -255,46 +255,48 @@
         </div>
     </footer>
 
-    <nav class="fixed inset-x-3 bottom-3 z-50 grid grid-cols-4 gap-1 rounded-xl border p-1 shadow-overlay backdrop-blur-xl lg:hidden @hasSection('mobile_app_home') hidden @endif"
-         style="border-color: var(--ui-border); background: color-mix(in srgb, var(--ui-surface) 86%, transparent);">
-        @php
-            $bottomNav = [
-                [
-                    'label' => 'Trang chủ',
-                    'url' => route('trang-chu'),
-                    'active' => request()->routeIs('trang-chu'),
-                    'icon' => 'M3 12l9-9 9 9M5 10v10h14V10',
-                ],
-                [
-                    'label' => 'Thư viện',
-                    'url' => route('truyen.danh-sach'),
-                    'active' => request()->routeIs('truyen.*', 'the-loai.*', 'chuong.doc'),
-                    'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
-                ],
-                [
-                    'label' => 'Tìm kiếm',
-                    'url' => route('tim-kiem'),
-                    'active' => request()->routeIs('tim-kiem'),
-                    'icon' => 'M21 21l-5.2-5.2m0 0A7.3 7.3 0 105.5 5.5a7.3 7.3 0 0010.3 10.3z',
-                ],
-                [
-                    'label' => 'Tài khoản',
-                    'url' => auth()->check() ? route('tai-khoan') : route('dang-nhap'),
-                    'active' => request()->routeIs('tai-khoan*', 'yeu-thich', 'lich-su-doc', 'theo-doi', 'dang-nhap', 'dang-ky', 'quen-mat-khau', 'dat-lai-mat-khau'),
-                    'icon' => 'M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0',
-                ],
-            ];
-        @endphp
+    @if(!request()->routeIs('chuong.doc'))
+        <nav class="fixed inset-x-3 bottom-3 z-50 grid grid-cols-4 gap-1 rounded-xl border p-1 shadow-overlay backdrop-blur-xl lg:hidden @hasSection('mobile_app_home') hidden @endif"
+             style="border-color: var(--ui-border); background: color-mix(in srgb, var(--ui-surface) 86%, transparent);">
+            @php
+                $bottomNav = [
+                    [
+                        'label' => 'Trang chủ',
+                        'url' => route('trang-chu'),
+                        'active' => request()->routeIs('trang-chu'),
+                        'icon' => 'M3 12l9-9 9 9M5 10v10h14V10',
+                    ],
+                    [
+                        'label' => 'Thư viện',
+                        'url' => route('truyen.danh-sach'),
+                        'active' => request()->routeIs('truyen.*', 'the-loai.*', 'chuong.doc'),
+                        'icon' => 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
+                    ],
+                    [
+                        'label' => 'Tìm kiếm',
+                        'url' => route('tim-kiem'),
+                        'active' => request()->routeIs('tim-kiem'),
+                        'icon' => 'M21 21l-5.2-5.2m0 0A7.3 7.3 0 105.5 5.5a7.3 7.3 0 0010.3 10.3z',
+                    ],
+                    [
+                        'label' => 'Tài khoản',
+                        'url' => auth()->check() ? route('tai-khoan') : route('dang-nhap'),
+                        'active' => request()->routeIs('tai-khoan*', 'yeu-thich', 'lich-su-doc', 'theo-doi', 'dang-nhap', 'dang-ky', 'quen-mat-khau', 'dat-lai-mat-khau'),
+                        'icon' => 'M15.75 7.5a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0',
+                    ],
+                ];
+            @endphp
 
-        @foreach($bottomNav as $item)
-            <a href="{{ $item['url'] }}" class="flex min-h-12 flex-col items-center justify-center gap-1 rounded-lg text-[11px] font-medium {{ $item['active'] ? 'nav-link-active' : '' }}" style="color: {{ $item['active'] ? 'var(--ui-primary)' : 'var(--ui-muted)' }};">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
-                </svg>
-                <span>{{ $item['label'] }}</span>
-            </a>
-        @endforeach
-    </nav>
+            @foreach($bottomNav as $item)
+                <a href="{{ $item['url'] }}" class="flex min-w-0 min-h-12 flex-col items-center justify-center gap-1 rounded-lg text-[11px] font-medium {{ $item['active'] ? 'nav-link-active' : '' }}" style="color: {{ $item['active'] ? 'var(--ui-primary)' : 'var(--ui-muted)' }};">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $item['icon'] }}"/>
+                    </svg>
+                    <span>{{ $item['label'] }}</span>
+                </a>
+            @endforeach
+        </nav>
+    @endif
 
     @stack('scripts')
 </body>

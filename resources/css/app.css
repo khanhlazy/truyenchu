@@ -89,6 +89,7 @@
         -moz-osx-font-smoothing: grayscale;
         scroll-behavior: smooth;
         background: var(--ui-bg);
+        overflow-x: hidden;
     }
 
     body {

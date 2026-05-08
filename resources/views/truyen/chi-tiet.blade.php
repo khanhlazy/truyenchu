@@ -36,22 +36,26 @@
             <div class="absolute inset-0" style="background: linear-gradient(0deg, var(--ui-text) 0%, transparent 60%);"></div>
         </div>
 
-        <div class="relative z-10 grid gap-8 px-6 py-10 lg:grid-cols-[auto_1fr] lg:items-end lg:px-12 lg:py-16">
+        <div class="relative z-10 grid gap-5 px-5 py-6 lg:gap-8 lg:grid-cols-[auto_1fr] lg:items-end lg:px-12 lg:py-16">
             {{-- Cover Image --}}
-            <div class="mx-auto w-full max-w-[200px] lg:max-w-[280px]">
-                <div class="aspect-[2/3] overflow-hidden rounded-lg shadow-overlay ring-1 ring-white/20">
+            <div class="mx-auto shrink-0 cover-image-wrapper" style="width: 128px;">
+                <style>
+                    @media (min-width: 640px) { .cover-image-wrapper { width: 160px !important; } }
+                    @media (min-width: 1024px) { .cover-image-wrapper { width: 224px !important; } }
+                </style>
+                <div class="aspect-[2/3] overflow-hidden rounded-lg shadow-overlay ring-1 ring-white/20 bg-white/5">
                     <img src="{{ $truyen->urlAnhBia() }}" alt="{{ $truyen->tieu_de }}" class="h-full w-full object-cover">
                 </div>
             </div>
 
             {{-- Story Info --}}
-            <div class="space-y-6">
-                <nav class="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.02em] text-white/60">
-                    <a href="{{ route('trang-chu') }}" class="hover:text-white">Trang chủ</a>
-                    <span>/</span>
-                    <a href="{{ route('truyen.danh-sach') }}" class="hover:text-white">Truyện</a>
-                    <span>/</span>
-                    <span class="text-white">{{ $truyen->tieu_de }}</span>
+            <div class="min-w-0 space-y-6">
+                <nav class="flex flex-wrap items-center text-[10px] font-medium uppercase tracking-[0.02em] text-white/60 lg:text-xs" style="gap: 6px;">
+                    <a href="{{ route('trang-chu') }}" class="hover:text-white shrink-0">Trang chủ</a>
+                    <span class="shrink-0">/</span>
+                    <a href="{{ route('truyen.danh-sach') }}" class="hover:text-white shrink-0">Truyện</a>
+                    <span class="shrink-0">/</span>
+                    <span class="text-white min-w-0 truncate">{{ $truyen->tieu_de }}</span>
                 </nav>
 
                 <div class="space-y-4">
@@ -65,10 +69,10 @@
                             {{ $truyen->trang_thai === 'hoan_thanh' ? 'Hoàn thành' : 'Đang ra' }}
                         </span>
                     </div>
-                    <h1 class="text-[32px] font-bold leading-[1.2] text-white">
+                    <h1 class="text-2xl font-bold leading-[1.2] text-white lg:text-[32px]">
                         {{ $truyen->tieu_de }}
                     </h1>
-                    <div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-medium text-white/80">
+                    <div class="flex flex-wrap items-center text-xs font-medium text-white/80 lg:text-sm" style="gap: 8px 16px;">
                         <div class="flex items-center gap-2">
                             <span class="text-white/40">Tác giả:</span>
                             <span class="text-white">{{ $truyen->tac_gia ?: 'Ẩn danh' }}</span>
@@ -86,11 +90,11 @@
 
                 <div class="flex flex-wrap gap-4 pt-4">
                     @if($lichSuDoc && $lichSuDoc->chuong)
-                        <a href="{{ route('chuong.doc', [$truyen->slug, $lichSuDoc->chuong->slug]) }}" class="btn-primary">
+                        <a href="{{ route('chuong.doc', [$truyen->slug, $lichSuDoc->chuong->slug]) }}" class="btn-primary !min-h-9 !px-4 !py-2 !text-xs lg:!min-h-[40px] lg:!px-5 lg:!py-[10px] lg:!text-sm">
                             Đọc tiếp: Ch. {{ $lichSuDoc->chuong->so_chuong }}
                         </a>
                     @elseif($firstChapter)
-                        <a href="{{ route('chuong.doc', [$truyen->slug, $firstChapter->slug]) }}" class="btn-primary">
+                        <a href="{{ route('chuong.doc', [$truyen->slug, $firstChapter->slug]) }}" class="btn-primary !min-h-9 !px-4 !py-2 !text-xs lg:!min-h-[40px] lg:!px-5 lg:!py-[10px] lg:!text-sm">
                             Bắt đầu đọc
                         </a>
                     @endif
@@ -98,7 +102,7 @@
                     @auth
                         <form method="POST" action="{{ route('yeu-thich.toggle', $truyen->id) }}" class="inline-block">
                             @csrf
-                            <button type="submit" class="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/20 backdrop-blur-md ring-1 ring-white/20">
+                            <button type="submit" class="inline-flex min-h-9 items-center justify-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-white/20 backdrop-blur-md ring-1 ring-white/20 lg:min-h-10 lg:px-5 lg:py-2.5 lg:text-sm">
                                 @if($daYeuThich)
                                     <svg class="h-4 w-4 fill-[color:var(--ui-highlight)] text-[color:var(--ui-highlight)]" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                                     Đã yêu thích
@@ -117,7 +121,7 @@
     {{-- Content Layout --}}
     <div class="grid gap-8 lg:grid-cols-[1fr_340px]">
         {{-- Main Column --}}
-        <div class="space-y-8">
+        <div class="min-w-0 space-y-8">
             {{-- Synopsis --}}
             <section class="surface-panel p-6 sm:p-8">
                 <h2 class="section-title mb-4">Giới thiệu nội dung</h2>
@@ -126,7 +130,7 @@
                     @if($truyen->mo_ta_day_du)
                         <div x-data="{ expanded: false }" class="relative">
                             <div class="whitespace-pre-line overflow-hidden transition-all duration-300" :style="expanded ? '' : 'max-height: 200px; mask-image: linear-gradient(to bottom, black 50%, transparent 100%)'">
-                                {{ $truyen->mo_ta_day_du }}
+                                {!! $truyen->mo_ta_day_du !!}
                             </div>
                             <button type="button" @click="expanded = !expanded" class="btn-quiet mt-4 text-xs">
                                 <span x-text="expanded ? 'Thu gọn' : 'Đọc toàn bộ giới thiệu'"></span>
@@ -162,7 +166,7 @@
 
                 <div class="grid gap-2 sm:grid-cols-2">
                     @forelse($chuongs as $chapter)
-                        <a href="{{ route('chuong.doc', [$truyen->slug, $chapter->slug]) }}" class="group flex items-center gap-3 rounded-lg p-3 text-sm transition-all hover:bg-primary-50">
+                        <a href="{{ route('chuong.doc', [$truyen->slug, $chapter->slug]) }}" class="group min-w-0 flex items-center gap-3 rounded-lg p-3 text-sm transition-all hover:bg-primary-50">
                             <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[color:var(--ui-surface-variant)] text-[10px] font-semibold transition-colors group-hover:bg-[color:var(--ui-primary)] group-hover:text-white" style="color: var(--ui-muted);">
                                 {{ $chapter->so_chuong }}
                             </span>

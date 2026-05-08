@@ -15,7 +15,13 @@
     {{-- Cinematic Main Hero Slider --}}
     <section x-data="{ active: 0, total: {{ $truyenHot->take(5)->count() }} }" 
              x-init="setInterval(() => active = (active + 1) % total, 5000)"
-             class="relative overflow-hidden rounded-xl shadow-card" style="background: var(--ui-text);">
+             class="relative overflow-hidden rounded-xl shadow-card flex flex-col carousel-hero" 
+             style="background: var(--ui-text); height: 460px;">
+        <style>
+            @media (min-width: 1024px) {
+                .carousel-hero { height: 520px !important; }
+            }
+        </style>
         {{-- Backgrounds (Blurred + Trong Dong) --}}
         @foreach($truyenHot->take(5) as $index => $story)
             <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
@@ -29,15 +35,15 @@
             </div>
         @endforeach
 
-        <div class="relative z-10 px-6 py-10 lg:px-10 lg:py-16">
-            <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
+        <div class="relative z-10 flex flex-1 flex-col px-6 py-8 lg:px-10 lg:py-12">
+            <div class="relative flex-1">
                 {{-- Left: Content --}}
                 @foreach($truyenHot->take(5) as $index => $story)
                     <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
                          x-transition:enter="transition ease-out duration-500"
                          x-transition:enter-start="opacity-0 translate-y-4"
                          x-transition:enter-end="opacity-100 translate-y-0"
-                         class="space-y-6">
+                         class="absolute inset-0 flex flex-col justify-center lg:w-1/2 lg:pr-8">
                         
                         <div class="space-y-4">
                             <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.02em] ring-1 backdrop-blur-md" style="background: rgba(253, 86, 167, 0.14); color: #FD56A7; border-color: rgba(253, 86, 167, 0.28);">
@@ -50,17 +56,22 @@
 
                             <div class="space-y-2">
                                 <span class="block text-xs font-medium uppercase tracking-[0.02em]" style="color: rgba(255, 255, 255, 0.72);">Đam Mê Truyện</span>
-                                <h1 class="line-clamp-2 text-[32px] font-bold leading-[1.2] text-white">
+                                <h1 class="line-clamp-2 text-[32px] font-bold leading-[1.2] text-white" style="min-height: 77px;">
                                     {{ $story->tieu_de }}
                                 </h1>
                             </div>
                             
-                            <p class="max-w-md text-sm leading-relaxed text-white/75 line-clamp-3 lg:text-base">
+                            <p class="max-w-md text-sm leading-relaxed text-white/75 line-clamp-3 lg:text-base carousel-desc" style="min-height: 69px;">
                                 {{ $story->mo_ta_ngan ?: 'Khám phá tác phẩm hấp dẫn nhất hôm nay với cốt truyện lôi cuốn và kịch tính.' }}
                             </p>
+                            <style>
+                                @media (min-width: 1024px) {
+                                    .carousel-desc { min-height: 78px !important; }
+                                }
+                            </style>
                         </div>
 
-                        <div class="flex flex-wrap gap-4">
+                        <div class="flex flex-wrap gap-4 mt-6">
                             <a href="{{ route('truyen.chi-tiet', $story->slug) }}" class="btn-primary">
                                 Đọc Ngay
                             </a>
@@ -72,13 +83,13 @@
                 @endforeach
 
                 {{-- Right: Cover Image --}}
-                <div class="relative hidden lg:flex justify-end">
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:flex justify-end w-1/2 pl-8 pointer-events-none">
                     @foreach($truyenHot->take(5) as $index => $story)
                         <div x-show="active === {{ $index }}" {{ $index > 0 ? 'x-cloak' : '' }}
                              x-transition:enter="transition ease-out duration-700"
                              x-transition:enter-start="opacity-0 scale-90 translate-x-12"
                              x-transition:enter-end="opacity-100 scale-100 translate-x-0"
-                             class="relative aspect-[2/3] w-64 overflow-hidden rounded-lg shadow-overlay transition-all duration-700 ring-1 ring-white/10">
+                             class="relative aspect-[2/3] w-56 overflow-hidden rounded-lg shadow-overlay transition-all duration-700 ring-1 ring-white/10 pointer-events-auto">
                             <img src="{{ $story->urlAnhBia() }}" alt="{{ $story->tieu_de }}" class="h-full w-full object-cover">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                         </div>
